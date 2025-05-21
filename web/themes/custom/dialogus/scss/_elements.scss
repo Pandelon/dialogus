@@ -1,0 +1,229 @@
+.node__meta {
+  text-align: end;
+}
+
+
+.field--name-title {
+  color: $dia-red-300;
+  font-family: 'Alumni Sans', sans-serif;
+  font-size: 3rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.region-nav-branding .navbar-brand img {
+  height: 90px;
+}
+
+.region-content a {
+  color: $dia-orange;
+  padding: 3px;
+
+  &:hover {
+    color: #fff;
+    background-color: $dia-orange;
+    text-decoration: none;
+  }
+}
+.navbar-brand img {
+  height: 70px;
+}
+
+#block-dialogus-search-form {
+
+  #edit-keys {
+    border: 1px solid $dia-red-300;
+    border-radius: 0;
+    height: 22px;
+  }
+  #edit-submit {
+    background: $dia-red-300;
+    border-radius: 0;
+    border: none;
+    padding: 0 1em;
+    margin-top: -3px;
+    line-height: 22px;
+    text-transform: uppercase;  }
+}
+ .a2a_kit {
+   float: right;
+ }
+button {
+
+}
+.region-content table td {
+  padding: 5px;
+}
+.button {
+  background: $dia-red-300;
+  border: 2px solid $dia-red-500;
+
+  padding: 5px 10px;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  &:hover {
+    background-color: $dia-red-200;
+  }
+}
+a.apply-button {
+  background: linear-gradient(90deg, #ee6352, $dia-red-300, $dia-body);
+  background-size: 300%;
+  background-position: left;
+  color: white;
+  padding: 10px 15px;
+  transition: background-position 350ms;
+  text-transform: uppercase;
+  border: 1px solid $dia-red-300;
+
+   &:hover {
+     color: #000;
+     background-position: right;
+     text-decoration: none;
+
+     border: 1px solid #000;
+   }
+}
+.apply-button.ecdl {
+/*  background: linear-gradient(90deg, blue, $dia-body);
+  color: #fff;
+  font-weight: 600;*/
+}
+.apply-button.it {
+  background: linear-gradient(90deg, $dia-it-600, $dia-it-300);
+  color: #000;
+  font-weight: 600;
+  border: 1px solid $dia-it-600;
+}
+
+/*  form */
+
+input.form-control {
+  border-radius: 0;
+}
+
+.form-control {
+  //border: 0;
+  //border-bottom: 2px solid $dia-red-300;
+
+  &:focus {
+    border-color: $dia-red-300;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba($dia-red-300, 0.25);
+  }
+}
+
+.field--name-field-training-date {
+  padding: 1em;
+  background-color: $dia-red-600;
+  border: 1px solid #020202;
+}
+
+/*  /form*/
+
+.region-header {
+  a {
+    color: $dia-red-300;
+  }
+
+  i {
+    margin: 0 5px;
+  }
+
+  p {
+    margin-bottom: 0;
+    margin-top: 3px;
+    font-weight: bold;
+    font-size: .8rem;
+  }
+}
+.twentyfive {
+  width: 20%;
+}
+.field--name-field-training-date {
+  .field__item {
+    color: $dia-red-200;
+    margin: 5px 0;
+    font-size: 1.4rem;
+  }
+}
+.redbox {
+  border: 2px solid $dia-red-300;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+
+.region-content table {
+
+  tbody tr td {
+    // width: 50%;
+  }
+}
+#sliding-popup {
+  button {
+    font-size: .7rem;
+  }
+}
+#block-jelentkezemitkepzesre p a {
+  background: linear-gradient(90deg, #ee6352, $dia-red-300, $dia-body);
+  background-size: 300%;
+  background-position: left;
+  color: white;
+  padding: 10px 15px;
+  transition: background-position 350ms;
+  text-transform: uppercase;
+  border: 1px solid $dia-red-300;
+
+  display: block;
+  width: 100%;
+  text-align: center;
+
+  &:hover {
+    color: #000;
+    background-position: right;
+    text-decoration: none;
+
+    border: 1px solid #000;
+  }
+}
+
+label {
+  font-weight: bold;
+}
+.table450 {
+  width: 450px !important;
+  border: 1px solid black;
+}
+.redbordertable {
+  max-width: 250px;
+  //padding: 1rem;
+  position: relative;
+  background: linear-gradient(to right, red, purple);
+  padding: 3px;
+}
+
+table li {
+  list-style: none;
+}
+
+
+/*  FAQ   */
+
+.field--name-field-p-faqfield {
+  .faqfield-question {
+    font-size: 1.5rem;
+  }
+
+  .ui-state-active {
+    background-color: $dia-red-300;
+    border: 1px solid $dia-red-200;
+  }
+}
+
+

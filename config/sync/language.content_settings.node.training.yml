@@ -1,0 +1,11 @@
+uuid: f2c56532-0f5e-4922-a4e1-c77f83cd2077
+langcode: hu
+status: true
+dependencies:
+  config:
+    - node.type.training
+id: node.training
+target_entity_type_id: node
+target_bundle: training
+default_langcode: site_default
+language_alterable: false

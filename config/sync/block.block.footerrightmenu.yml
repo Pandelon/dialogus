@@ -1,0 +1,25 @@
+uuid: 9371c765-937d-4a0b-b2e3-a2e7068e9016
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.footer-right-menu
+  module:
+    - system
+  theme:
+    - dialogus
+id: footerrightmenu
+theme: dialogus
+region: footer3
+weight: -11
+provider: null
+plugin: 'system_menu_block:footer-right-menu'
+settings:
+  id: 'system_menu_block:footer-right-menu'
+  label: 'Footer right menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

@@ -1,0 +1,10 @@
+uuid: 5695463e-ba6f-47c4-9f59-afba740bc97b
+langcode: en
+status: true
+dependencies: {  }
+id: p_view
+label: Dátum
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

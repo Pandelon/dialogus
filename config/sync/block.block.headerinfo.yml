@@ -1,0 +1,25 @@
+uuid: 5b126d22-fe24-46b7-8623-1bff012928b0
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:8ecbe4f9-662b-4cfd-88a0-654e0f2c52a8'
+  module:
+    - block_content
+  theme:
+    - dialogus
+id: headerinfo
+theme: dialogus
+region: header
+weight: -12
+provider: null
+plugin: 'block_content:8ecbe4f9-662b-4cfd-88a0-654e0f2c52a8'
+settings:
+  id: 'block_content:8ecbe4f9-662b-4cfd-88a0-654e0f2c52a8'
+  label: 'Header info'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

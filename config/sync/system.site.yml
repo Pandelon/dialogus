@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: yTxtFqBHnEWxQswuWvkjE8mKw2t8oKuCL1q8KnfHuGE
+langcode: hu
+uuid: 0efad521-1027-45dc-b1f3-680a2fbbca96
+name: Dialógusház
+mail: info@dialogoshaz.hu
+slogan: 'oktató és szolgáltató Kft.'
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: hu
+mail_notification: null

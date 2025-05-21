@@ -1,0 +1,22 @@
+uuid: ec9877dd-74ab-42bf-8b2f-791409aaabf1
+langcode: hu
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - dialogus
+_core:
+  default_config_hash: JPtjio142VL7z1Y-K1aWkTXu5wId7r4-zNUHozwLqf0
+id: dialogus_help
+theme: dialogus
+region: content
+weight: -9
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

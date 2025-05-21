@@ -1,0 +1,11 @@
+uuid: ae8a542b-44ec-42fe-a798-edca9033115f
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.training_days
+id: taxonomy_term.training_days
+target_entity_type_id: taxonomy_term
+target_bundle: training_days
+default_langcode: site_default
+language_alterable: false

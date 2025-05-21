@@ -1,0 +1,38 @@
+uuid: 23aae78e-5e46-4bf5-8762-8b5f4ed062b8
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:366ff94b-216f-4147-8bfe-1456ca2fc898'
+  module:
+    - block_content
+    - ctools
+    - system
+  theme:
+    - dialogus
+id: jelentkezemitkepzesre
+theme: dialogus
+region: content
+weight: -7
+provider: null
+plugin: 'block_content:366ff94b-216f-4147-8bfe-1456ca2fc898'
+settings:
+  id: 'block_content:366ff94b-216f-4147-8bfe-1456ca2fc898'
+  label: 'jelentkezem IT képzésre'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      training: training
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/kepzes/szamitastechnika-kepzesek/*'

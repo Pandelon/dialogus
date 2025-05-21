@@ -1,0 +1,14 @@
+uuid: 6b4231c4-06a3-4bc7-9b15-2617c7940c46
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.editor
+  module:
+    - user
+id: user_remove_role_action.editor
+label: 'Remove the Szerkesztő role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: editor

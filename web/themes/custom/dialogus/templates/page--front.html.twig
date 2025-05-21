@@ -1,0 +1,81 @@
+{%
+set nav_classes = 'navbar navbar-expand-lg' ~
+  (b4_navbar_schema != 'none' ? " navbar-#{b4_navbar_schema}" : ' ') ~
+  (b4_navbar_schema != 'none' ? (b4_navbar_schema == 'dark' ? ' text-light' : ' text-dark' ) : ' ') ~
+  (b4_navbar_bg_schema != 'none' ? " bg-#{b4_navbar_bg_schema}" : ' ')
+%}
+
+{%
+set footer_classes = ' ' ~
+  (b4_footer_schema != 'none' ? " footer-#{b4_footer_schema}" : ' ') ~
+  (b4_footer_schema != 'none' ? (b4_footer_schema == 'dark' ? ' text-light' : ' text-dark' ) : ' ') ~
+  (b4_footer_bg_schema != 'none' ? " bg-#{b4_footer_bg_schema}" : ' ')
+%}
+
+<header>
+  {{ page.header }}
+
+  {% if page.nav_branding or page.nav_main or page.nav_additional %}
+  <nav class="{{ nav_classes }}">
+    <div class="{{ b4_top_container }} row mx-auto">
+      <div class="col-auto p-0">
+      {{ page.nav_branding }}
+      </div>
+
+      <div class="col-3 col-md-auto p-0 text-right">
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse col-12 col-md-auto p-0 justify-content-end" id="navbarSupportedContent">
+        {{ page.nav_main }}
+        {{ page.nav_additional }}
+      </div>
+    </div>
+  </nav>
+  {% endif %}
+</header>
+
+<main role="main">
+  <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
+  <div class="{{ b4_top_container }}">
+    <div class="no-gutters">
+      <div id="front1">
+        {{ page.front1 }}
+      </div>
+
+      <div id="front2">
+        <div class="container" >
+          {{ page.front2 }}
+        </div>
+      </div>
+
+      <div id="front3">
+        <div class="container">
+          {{ page.front3 }}
+        </div>
+      </div>
+
+      <div id="front4">
+        {{ page.front4 }}
+      </div>
+
+    </div>
+  </div>
+</main>
+
+
+<footer class="mt-auto footer">
+  <div class="{{ b4_top_container }}">
+    {{ page.footer1 }}
+  </div>
+  <div class="{{ b4_top_container }}">
+    {{ page.footer2 }}
+  </div>
+  <div class="{{ b4_top_container }}">
+    {{ page.footer3 }}
+  </div>
+</footer>

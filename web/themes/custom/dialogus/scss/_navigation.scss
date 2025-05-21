@@ -1,0 +1,52 @@
+#block-mainnavigation {
+ ul {
+   li {
+     > a.nav-link {
+       font-family: 'BenchNine', sans-serif;
+       color: $dia-red-300;
+       font-size: 1.3rem;
+       white-space: nowrap;
+       padding: 5px;
+       letter-spacing: 0px;
+       line-height: 1.8rem;
+       text-transform: uppercase;
+
+       &:hover {
+         background: #c8c8c8;
+       }
+     }
+   }
+  }
+}
+
+ul.show > li > a {
+  font-size: 1.4rem;
+
+}
+#block-dialogus-footer {
+  position: relative;
+  z-index:2;
+}
+.block-dialogus-footer-menu {
+  .nav-link {
+    background: lime;
+    &:hover {
+      background: yellow;
+    }
+  }
+}
+
+
+ul ul .nav-item.dropdown::after {
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+  position: absolute;
+  font-size: 20px;
+  top: 50%;
+  right: 5px;
+  color: $dia-red-300;
+  transform: rotate(-90deg);
+}

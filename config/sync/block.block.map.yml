@@ -1,0 +1,25 @@
+uuid: 29465886-d191-4028-a31b-4cea67618027
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:efd1d6ac-6f32-4799-a89e-4c98509e1a71'
+  module:
+    - block_content
+  theme:
+    - dialogus
+id: map
+theme: dialogus
+region: front4
+weight: 0
+provider: null
+plugin: 'block_content:efd1d6ac-6f32-4799-a89e-4c98509e1a71'
+settings:
+  id: 'block_content:efd1d6ac-6f32-4799-a89e-4c98509e1a71'
+  label: Map
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

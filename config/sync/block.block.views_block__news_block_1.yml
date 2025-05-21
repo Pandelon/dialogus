@@ -1,0 +1,24 @@
+uuid: 62501fcc-d83c-4149-9f05-c5d3c12d97c4
+langcode: hu
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - views
+  theme:
+    - dialogus
+id: views_block__news_block_1
+theme: dialogus
+region: front2
+weight: 0
+provider: null
+plugin: 'views_block:news-block_1'
+settings:
+  id: 'views_block:news-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

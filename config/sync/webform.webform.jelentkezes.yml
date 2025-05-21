@@ -1,0 +1,450 @@
+uuid: 8a8564a5-1da5-4996-9be4-e59051c805a2
+langcode: hu
+status: open
+dependencies: {  }
+weight: 0
+open: null
+close: null
+uid: 1
+template: false
+archive: false
+id: jelentkezes
+title: 'Jelentkezés számítástechnikai képzésre'
+description: ''
+categories: {  }
+elements: |-
+  nev:
+    '#type': textfield
+    '#title': Név
+    '#required': true
+  e_mail_cim:
+    '#type': email
+    '#title': 'E-mail cím'
+    '#required': true
+  telefonszam:
+    '#type': tel
+    '#title': Telefonszám
+    '#required': true
+  a_kepzes_modja:
+    '#type': select
+    '#title': 'A képzés módja'
+    '#options':
+      online: 'Online képzésre jelentkezem'
+      individual: 'Egyéni képzésre jelentkezem'
+      group: 'Csoportos képzésre jelentkezem'
+    '#required': true
+  select_it_training:
+    '#type': webform_entity_select
+    '#title': 'Válasszon számítógépes képzést'
+    '#required': true
+    '#target_type': node
+    '#selection_handler': views
+    '#selection_settings':
+      view:
+        view_name: training_lists
+        display_name: entity_reference_it
+        arguments: {  }
+  a_kepzes_idobeosztasa:
+    '#type': webform_select_other
+    '#title': 'A képzés időbeosztása'
+    '#options':
+      cs3de: 'Csoportos, hétfő-szerda-péntek, 9:00-12:00'
+      cs2de: 'Csoportos, kedd-csütörtök , 9:00-12:00'
+      cs3du: 'Csoportos, hétfő-szerda-péntek, 17:00-20:00'
+      cs2du: 'csoportos, kedd-csütörtök , 17:00-20:00'
+      online: 'Online képzés'
+      cs1sz: 'csoportos, szombati'
+      individual: 'Egyéni képzés, egyéni időbeosztás'
+    '#required': true
+  a_kepzes_kezdete:
+    '#type': webform_select_other
+    '#title': 'A képzés kezdete'
+    '#options':
+      next: 'A következő tanfolyam (a honlapon megjelölt dátum) '
+      future: 'Későbbi kezdésre jelentkezem'
+      online: 'Online képzés'
+      individual: 'Egyéni képzés'
+    '#other__placeholder': Más...
+    '#required': true
+  megjegyzes:
+    '#type': textarea
+    '#title': Megjegyzés
+  terms_of_service:
+    '#type': webform_terms_of_service
+    '#title': 'Megismertem és elfogadom az {Adatkezelési Tájékoztató}-t'
+    '#required': true
+    '#terms_type': slideout
+    '#terms_title': 'Adatvédelmi tájékoztató a képzésben részt vevők számára'
+    '#terms_content': |-
+      <p class="text-align-center">A t&aacute;j&eacute;koztat&oacute; c&eacute;lja, hogy mielőtt megadja az adatait, megismerje, hogy milyen c&eacute;lb&oacute;l k&eacute;rj&uuml;k el &Ouml;ntől, milyen jogok illetik meg, az adatai megad&aacute;s&aacute;val.</p>
+
+      <p class="text-align-center">A Dial&oacute;gush&aacute;z a t&aacute;j&eacute;koztat&oacute; elk&eacute;sz&iacute;t&eacute;sekor az Eur&oacute;pai Parlament &eacute;s a Tan&aacute;cs (EU) 2016/679 Rendelete (2016. &aacute;prilis 27) a term&eacute;szetes szem&eacute;lyeknek a szem&eacute;lyes adatok kezel&eacute;se tekintet&eacute;ben t&ouml;rt&eacute;nő v&eacute;delm&eacute;ről &eacute;s az ilyen adatok szabad &aacute;raml&aacute;s&aacute;r&oacute;l, a 95/46 EK ir&aacute;nyelv hat&aacute;lyon k&iacute;v&uuml;l helyez&eacute;s&eacute;ről (&aacute;ltal&aacute;nos adatv&eacute;delmi rendelet), m&aacute;sk&eacute;ppen&nbsp;GDPR&nbsp;vonatkoz&oacute; cikk&eacute;ben foglaltakat vette figyelembe.</p>
+
+      <p class="text-align-center">A felnőttk&eacute;pz&eacute;si t&ouml;rv&eacute;ny hat&aacute;lya szerint szervezett k&eacute;pz&eacute;sen val&oacute; r&eacute;szv&eacute;tel</p>
+
+      <p class="text-align-center">Amennyiben &Ouml;n olyan k&eacute;pz&eacute;sen vesz r&eacute;szt (p&eacute;ld&aacute;ul &aacute;llami forr&aacute;sb&oacute;l megval&oacute;sul&oacute; k&eacute;pz&eacute;s &eacute;s tov&aacute;bbi olyan k&eacute;pz&eacute;si t&iacute;pus, amelyre a k&eacute;pző felnőttk&eacute;pz&eacute;si enged&eacute;lyt szerzett) &eacute;s a k&eacute;pző a felnőttk&eacute;pz&eacute;si t&ouml;rv&eacute;ny szerint val&oacute;s&iacute;t meg, &uacute;gy a k&eacute;pzőnek a k&ouml;vetkező adatokat kell elk&eacute;rnie &eacute;s kezelnie:</p>
+
+      <ul>
+      	<li class="text-align-center">n&eacute;v, sz&uuml;let&eacute;si n&eacute;v</li>
+      	<li class="text-align-center">anyja neve</li>
+      	<li class="text-align-center">sz&uuml;let&eacute;si helye &eacute;s ideje</li>
+      	<li class="text-align-center">neme</li>
+      	<li class="text-align-center">&aacute;llampolg&aacute;rs&aacute;ga lak&oacute;hely&eacute;nek &eacute;s tart&oacute;zkod&aacute;si hely&eacute;nek c&iacute;me</li>
+      	<li class="text-align-center">telefonsz&aacute;ma</li>
+      	<li class="text-align-center">nem magyar &aacute;llampolg&aacute;r Magyarorsz&aacute;gon tart&oacute;zkod&aacute;s&aacute;nak jogc&iacute;me &eacute;s a tart&oacute;zkod&aacute;sra jogosult ok&iacute;rat, okm&aacute;ny megnevez&eacute;se &eacute;s sz&aacute;ma</li>
+      	<li class="text-align-center">t&aacute;rsadalombiztos&iacute;t&aacute;si sz&aacute;ma</li>
+      	<li class="text-align-center">tank&ouml;teles r&eacute;sztvevő eset&eacute;n a sz&uuml;lő, t&ouml;rv&eacute;nyes k&eacute;pviselő neve, lakhelye, tart&oacute;zkod&aacute;si helye, telefonsz&aacute;ma</li>
+      	<li class="text-align-center">A k&eacute;pz&eacute;si jogviszonnyal &ouml;sszef&uuml;ggő adatok, melyek a k&eacute;pz&eacute;sben r&eacute;szt vevő iskolai &eacute;s szakmai v&eacute;gzetts&eacute;g&eacute;vel, nyelvi ismereteivel, k&eacute;pz&eacute;sbe t&ouml;rt&eacute;nő felv&eacute;tel&eacute;vel, tanulm&aacute;nyai &eacute;rt&eacute;kel&eacute;s&eacute;vel &eacute;s minős&iacute;t&eacute;s&eacute;vel, a k&eacute;pz&eacute;ssel megszerzett szakk&eacute;pes&iacute;t&eacute;s vagy egy&eacute;b kompetencia megnevez&eacute;s&eacute;vel, a vizsga hely&eacute;vel időpontj&aacute;val, eredm&eacute;ny&eacute;vel kapcsolatosak.</li>
+      	<li class="text-align-center">t&aacute;mogatott k&eacute;pz&eacute;sek eset&eacute;n, amennyiben azt a t&aacute;mogat&aacute;si szerződ&eacute;s elő&iacute;rja, pl. fot&oacute;k, hangfelv&eacute;telek</li>
+      	<li class="text-align-center">munkaerőpiaci st&aacute;tusz</li>
+      </ul>
+
+      <p class="text-align-center">Az adatkezel&eacute;s c&eacute;lja, hogy &Ouml;n a k&eacute;pz&eacute;sben r&eacute;szt vehessen.</p>
+
+      <p class="text-align-center">Ha&nbsp; a fenti adatokat nem k&iacute;v&aacute;nja megadni, a k&eacute;pz&eacute;sen nem tud r&eacute;szt venni.</p>
+
+      <p class="text-align-center">&nbsp;</p>
+
+      <p class="text-align-center">Az adataihoz a k&eacute;pző int&eacute;zm&eacute;ny r&eacute;sz&eacute;ről az oktat&aacute;sszervező, az adminisztrat&iacute;v munkat&aacute;rs, valamint a p&eacute;nz&uuml;gyekkel megb&iacute;zott munkat&aacute;rs &eacute;s az oktat&oacute; f&eacute;rhet hozz&aacute;.</p>
+
+      <p class="text-align-center">Online regisztr&aacute;ci&oacute; eset&eacute;n az adatokhoz a k&eacute;pző int&eacute;zm&eacute;ny r&eacute;sz&eacute;re informatikai h&aacute;tt&eacute;r szolg&aacute;ltat&aacute;sokat ny&uacute;jt&oacute; jogi szem&eacute;lyek f&eacute;rhetnek hozz&aacute;.</p>
+
+      <p class="text-align-center">&nbsp;</p>
+
+      <p class="text-align-center">A k&eacute;pző int&eacute;zm&eacute;ny az &Ouml;n adatait a felnőttk&eacute;pz&eacute;si t&ouml;rv&eacute;ny alapj&aacute;n &ouml;t &eacute;vig k&ouml;teles megőr&iacute;zni, az ad&oacute;jogi el&eacute;v&uuml;l&eacute;sig ny&iacute;lv&aacute;ntartand&oacute; adatokat legfeljebb 7 &eacute;vig, a sz&aacute;mviteli k&ouml;telezetts&eacute;gek teljes&iacute;t&eacute;s&eacute;hez sz&uuml;ks&eacute;ges adatokat legfeljebb 8 &eacute;vig kezelheti.</p>
+
+      <p class="text-align-center">&nbsp;</p>
+
+      <p class="text-align-center">A k&eacute;pző int&eacute;zm&eacute;ny az &Ouml;n adatait harmadik f&eacute;l r&eacute;sz&eacute;re nem tov&aacute;bb&iacute;tja, kiv&eacute;ve, ha &Ouml;n &aacute;llami t&aacute;mogat&aacute;ssal megval&oacute;sult k&eacute;pz&eacute;sen vesz r&eacute;szt.</p>
+
+      <p class="text-align-center">Ebben az esetben a t&aacute;mogat&oacute; r&eacute;sz&eacute;re a k&eacute;pz&eacute;ssel kapcsolatos szem&eacute;lyes adatai tov&aacute;bb&iacute;t&aacute;sra ker&uuml;lnek illetve hat&oacute;s&aacute;gi ellenőrz&eacute;skor a hat&oacute;s&aacute;g k&eacute;pviselői betekinthetnek az &Ouml;n adatait tartalmaz&oacute; k&eacute;pz&eacute;si dokument&aacute;ci&oacute;kba.</p>
+
+      <p class="text-align-center">&nbsp;</p>
+
+      <p class="text-align-center">Szabad piaci szolg&aacute;ltat&aacute;sk&eacute;nt ny&uacute;jtott k&eacute;pz&eacute;sen val&oacute; r&eacute;szv&eacute;tel</p>
+
+      <p class="text-align-center">Amennyiben &Ouml;n olyan k&eacute;pz&eacute;sen vesz r&eacute;szt, amelyet&nbsp; k&eacute;pző &uacute;n. szabad piaci szolg&aacute;ltat&aacute;sk&eacute;nt ny&uacute;jt, a k&eacute;pzőek csak a a szerződ&eacute;s k&ouml;t&eacute;shez, a k&ouml;telező statisztik&aacute;khoz, valamint a kapcsolat tart&aacute;shoz elengedhetetlen&uuml;l sz&uuml;ks&eacute;ges adatokat kell elk&eacute;rnie &eacute;s kezelnie.</p>
+
+      <ul>
+      	<li class="text-align-center">N&eacute;v</li>
+      	<li class="text-align-center">Lak&oacute;hely&eacute;nek &eacute;s tart&oacute;zkod&aacute;si hely&eacute;nek c&iacute;me</li>
+      	<li class="text-align-center">telefonsz&aacute;ma &eacute;s vagy e-mail c&iacute;me</li>
+      	<li class="text-align-center">tank&ouml;teles r&eacute;sztvevő eset&eacute;n a sz&uuml;lő, t&ouml;rv&eacute;nyes k&eacute;pviselő neve, lakhelye, tart&oacute;zkod&aacute;si helye, telefonsz&aacute;ma</li>
+      	<li class="text-align-center">munkaerő piaci st&aacute;tusza</li>
+      	<li class="text-align-center">legmagasabb befejezett iskolai v&eacute;gzetts&eacute;ge</li>
+      </ul>
+
+      <p class="text-align-center">Az adatkezel&eacute;s c&eacute;lja, hogy &Ouml;n a k&eacute;pz&eacute;sben r&eacute;szt vehessen.&nbsp;Jogalapja: szerződ&eacute;s teljes&iacute;t&eacute;se, jogi k&ouml;telezetts&eacute;g teljes&iacute;t&eacute;se &eacute;s jogos &eacute;rdek. Ha a fenti adatokat nem k&iacute;v&aacute;nja megadni, &uacute;gy a k&eacute;pz&eacute;sen nem tud r&eacute;szt venni.</p>
+
+      <p class="text-align-center">&nbsp;</p>
+
+      <p class="text-align-center">Az adataihoz a k&eacute;pző int&eacute;zm&eacute;ny r&eacute;sz&eacute;ről az oktat&aacute;sszervező, az adminisztrat&iacute;v munkat&aacute;rs, valamint a p&eacute;nz&uuml;gyekkel megb&iacute;zott munkat&aacute;rs &eacute;s az oktat&oacute; f&eacute;rhet hozz&aacute;.</p>
+
+      <p class="text-align-center">Online regisztr&aacute;ci&oacute; eset&eacute;n az adatokhoz a k&eacute;pző int&eacute;zm&eacute;ny r&eacute;sz&eacute;re informatikai h&aacute;tt&eacute;r szolg&aacute;ltat&aacute;sokat ny&uacute;jt&oacute; jogi szem&eacute;lyek f&eacute;rhetnek hozz&aacute;.</p>
+
+      <p class="text-align-center">A k&eacute;pző int&eacute;zm&eacute;ny az ad&oacute;jogi el&eacute;v&uuml;l&eacute;sig nyilv&aacute;ntartand&oacute; szem&eacute;lyes adatokat legfeljebb 7 &eacute;vig, a sz&aacute;mviteli k&ouml;telezetts&eacute;gek teljes&iacute;t&eacute;s&eacute;hez sz&uuml;ks&eacute;ges adatokat legfeljebb 8 &eacute;vig kezelheti, harmadik f&eacute;le r&eacute;sz&eacute;re nem tov&aacute;bb&iacute;tja.</p>
+
+      <p class="text-align-center">&nbsp;</p>
+
+      <p class="text-align-center">A&nbsp; honlap haszn&aacute;lat&aacute;val kapcsolatos tudnival&oacute;k</p>
+
+      <p class="text-align-center">A honlapunkon egyszerű megtekint&eacute;sekor, b&ouml;ng&eacute;sz&eacute;sekor szem&eacute;lyes adatokat nem kezel&uuml;nk, esetenk&eacute;nt azonos&iacute;t&aacute;sra alkalmatlan m&oacute;don statisztikai adatokat gyűjt&uuml;nk a honlapunk l&aacute;togatotts&aacute;g&aacute;r&oacute;l.</p>
+
+      <p class="text-align-center">&nbsp;</p>
+
+      <p class="text-align-center">Az &Ouml;n szem&eacute;lyes adatainak kezel&eacute;s&eacute;vel kapcsolatos jogai</p>
+
+      <p class="text-align-center">A t&aacute;j&eacute;koztat&aacute;shoz&nbsp;val&oacute; jog a szem&eacute;lyes adatainak kezel&eacute;s&eacute;ről &Ouml;n jogosult b&aacute;rmikor megfelelő t&aacute;j&eacute;koztat&aacute;st kapni, &iacute;r&aacute;sban, sz&oacute;ban, mely az &Ouml;n megalapozott k&eacute;relme alapj&aacute;n t&ouml;rt&eacute;nik. A k&eacute;relemre egy h&oacute;napon bel&uuml;l ( esetlegesen k&eacute;t havi meghosszabb&iacute;t&aacute;ssal) kell megadni a t&aacute;j&eacute;koztat&aacute;st, ez&eacute;rt d&iacute;j nem sz&aacute;m&iacute;that&oacute; fel. A hozz&aacute;f&eacute;r&eacute;s joga: b&aacute;rmikor k&eacute;rhet visszajelz&eacute;st, hogy adatainak kezel&eacute;se folyamatban van-e, milyen adatait kezelik ( ez abban az esetben , ha az adatait nem &Ouml;n k&ouml;zvetlen&uuml;l adta meg), kiknek, hov&aacute; fogj&aacute;k tov&aacute;bb&iacute;tani, m,eddig t&aacute;rolj&aacute;k stb., azaz minden, az &Ouml;n szem&eacute;lyes adataival kapcsolatos t&aacute;j&eacute;koztat&aacute;sra, bele&eacute;rtve az automatiz&aacute;lt d&ouml;nt&eacute;shozatal t&eacute;ny&eacute;re, profilalkot&aacute;sra vonatkoz&oacute; felvil&aacute;gos&iacute;t&aacute;st is. K&eacute;r&eacute;s&eacute;re az adatokat m&aacute;solatban is elk&eacute;rheti.</p>
+
+      <p class="text-align-center">A helyesb&iacute;t&eacute;shez val&oacute; jog:&nbsp;k&eacute;rheti a nem pontosan, hi&aacute;nyosan r&ouml;gz&iacute;tett adatainak &eacute;sszerű időn bel&uuml;li kijav&iacute;t&aacute;s&aacute;t.</p>
+
+      <p class="text-align-center">A t&ouml;rl&eacute;shez val&oacute; jog:&nbsp;k&eacute;rheti, hogy adatait&nbsp;&eacute;sszerű hat&aacute;ridőn bel&uuml;l t&ouml;r&ouml;lj&eacute;k az adatb&aacute;zisn&oacute;l, ha arra m&aacute;r nincs sz&uuml;ks&eacute;g abb&oacute;l a c&eacute;lb&oacute;l, amelyhez gyűjt&ouml;tt&eacute;k, ha visszavonja adatainak kezel&eacute;s&eacute;re vonatkoz&oacute; hozz&aacute;j&aacute;rul&aacute;s&aacute;t, tiltakozik adatainak kezel&eacute;se ellen, vagy ha z adatait jogellenesen kezelt&eacute;k. (Nem t&ouml;r&ouml;lheti szem&eacute;lyes adatait abban az esetben, ha az adatainak kezel&eacute;s&eacute;re valamely jogi k&ouml;telezetts&eacute;g miatt van sz&uuml;ks&eacute;g.)</p>
+
+      <p class="text-align-center">Az&nbsp;adatkezel&eacute;s korl&aacute;toz&aacute;s&aacute;hoz val&oacute; jog: ha &Ouml;n valamely okb&oacute;l vitatja, hogy az adatainak kezel&eacute;se megfelelő m&oacute;don t&ouml;rt&eacute;nik, addig, ameddig ez nem tiszt&aacute;z&oacute;dik, korl&aacute;tozhatja adatainak haszn&aacute;lat&aacute;t.</p>
+
+      <p class="text-align-center">A tiltakoz&aacute;shoz val&oacute; jog:&nbsp; &Ouml;n b&aacute;rmikor tiltakozhat az ellen, hogy az adatait kezelj&eacute;k, &iacute;gy ebben az esetben a k&eacute;pző int&eacute;zm&eacute;ny az adatait nem kezelheti tov&aacute;bb.</p>
+
+      <p class="text-align-center">A panaszt&eacute;telhez val&oacute; jog: ha az adatainak kezel&eacute;s&eacute;vel kapcsolatban valamilyen kifog&aacute;sa van, panaszt tehet az illet&eacute;kes hat&oacute;s&aacute;gn&aacute;l a Nemzeti Adatv&eacute;delmi &eacute;s Inform&aacute;ci&oacute;szabads&aacute;g Hat&oacute;s&aacute;g 1125 Budapest, Szil&aacute;gyi Erzs&eacute;bet fasor 22/C., tel: 36 1&nbsp;391 1400,&nbsp;<a href="http://www.naih.hu:&amp;nbsp">www.naih.hu:&amp;nbsp</a>;<a href="mailto:%C3%BCgyf%C3%A9lszolg%C3%A1lat@naih.hu">&uuml;gyf&eacute;lszolg&aacute;lat@naih.hu</a></p>
+
+      <p class="text-align-center">A b&iacute;r&oacute;s&aacute;ghoz fordul&aacute;s joga:&nbsp; ha az&nbsp; adatainak kezel&eacute;s&eacute;vel kapcsolatos jogai s&eacute;r&uuml;lnek, jogosult arra, hogy b&iacute;r&oacute;s&aacute;ghoz forduljon.</p>
+
+      <p class="text-align-center">Az adathordozhat&oacute;s&aacute;ghoz val&oacute; jog: ha ig&eacute;nyli, megkaphatja adatait elektronikus adathordoz&oacute;n vagy k&eacute;rheti, hogy ezeket a k&eacute;pző int&eacute;zm&eacute;ny egy m&aacute;sik int&eacute;zm&eacute;nynek tov&aacute;bb&iacute;tsa.</p>
+
+      <p class="text-align-center">Az adatkezel&eacute;sek sor&aacute;n automatiz&aacute;lt d&ouml;nt&eacute;shozatal, profilalkot&aacute;s nem t&ouml;rt&eacute;nik. Szem&eacute;lyes adatai v&eacute;delm&eacute;nek &eacute;rdek&eacute;ben a pap&iacute;r alap&uacute; dokumentumokat biztons&aacute;gos helyen t&aacute;roljuk, az elektronikusan t&aacute;rolt adataihoz a megfelelő jogosults&aacute;ggal rendelkező munkat&aacute;rsak f&eacute;rhetnek csak hozz&aacute;.</p>
+
+      <p class="text-align-center">Szem&eacute;lyes adatainak kezel&eacute;s&eacute;vel kapcsolatos k&eacute;rd&eacute;se eset&eacute;n az al&aacute;bbi el&eacute;rhetős&eacute;geken fordulhat hozz&aacute;nk:</p>
+
+      <p class="text-align-center">Adatkezelő megnevez&eacute;se: Dial&oacute;gush&aacute;z Kft</p>
+
+      <p class="text-align-center">C&iacute;me: 1066 Budapest, J&oacute;kai u. 66</p>
+
+      <p class="text-align-center">K&eacute;pviseli: Turcs&aacute;ny Ferenc</p>
+  captcha:
+    '#type': captcha
+  actions:
+    '#type': webform_actions
+    '#title': 'Submit button(s)'
+    '#submit__label': Beküld
+css: ''
+javascript: ''
+settings:
+  ajax: false
+  ajax_scroll_top: form
+  ajax_progress_type: ''
+  ajax_effect: ''
+  ajax_speed: null
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  page_theme_name: ''
+  form_title: source_entity_webform
+  form_submit_once: false
+  form_open_message: ''
+  form_close_message: ''
+  form_exception_message: ''
+  form_previous_submissions: true
+  form_confidential: false
+  form_confidential_message: ''
+  form_disable_remote_addr: false
+  form_convert_anonymous: false
+  form_prepopulate: true
+  form_prepopulate_source_entity: false
+  form_prepopulate_source_entity_required: false
+  form_prepopulate_source_entity_type: ''
+  form_unsaved: false
+  form_disable_back: false
+  form_submit_back: false
+  form_disable_autocomplete: false
+  form_novalidate: false
+  form_disable_inline_errors: false
+  form_required: false
+  form_autofocus: false
+  form_details_toggle: false
+  form_reset: false
+  form_access_denied: default
+  form_access_denied_title: ''
+  form_access_denied_message: ''
+  form_access_denied_attributes: {  }
+  form_file_limit: ''
+  form_attributes: {  }
+  form_method: ''
+  form_action: ''
+  share: false
+  share_node: false
+  share_theme_name: ''
+  share_title: true
+  share_page_body_attributes: {  }
+  submission_label: ''
+  submission_exception_message: ''
+  submission_locked_message: ''
+  submission_log: false
+  submission_excluded_elements: {  }
+  submission_exclude_empty: false
+  submission_exclude_empty_checkbox: false
+  submission_views: {  }
+  submission_views_replace: {  }
+  submission_user_columns: {  }
+  submission_user_duplicate: false
+  submission_access_denied: default
+  submission_access_denied_title: ''
+  submission_access_denied_message: ''
+  submission_access_denied_attributes: {  }
+  previous_submission_message: ''
+  previous_submissions_message: ''
+  autofill: false
+  autofill_message: ''
+  autofill_excluded_elements: {  }
+  wizard_progress_bar: true
+  wizard_progress_pages: false
+  wizard_progress_percentage: false
+  wizard_progress_link: false
+  wizard_progress_states: false
+  wizard_start_label: ''
+  wizard_preview_link: false
+  wizard_confirmation: true
+  wizard_confirmation_label: ''
+  wizard_auto_forward: true
+  wizard_auto_forward_hide_next_button: false
+  wizard_keyboard: true
+  wizard_track: ''
+  wizard_prev_button_label: ''
+  wizard_next_button_label: ''
+  wizard_toggle: true
+  wizard_toggle_show_label: ''
+  wizard_toggle_hide_label: ''
+  wizard_page_type: container
+  wizard_page_title_tag: h2
+  preview: 0
+  preview_label: ''
+  preview_title: ''
+  preview_message: ''
+  preview_attributes: {  }
+  preview_excluded_elements: {  }
+  preview_exclude_empty: true
+  preview_exclude_empty_checkbox: false
+  draft: none
+  draft_multiple: false
+  draft_auto_save: false
+  draft_saved_message: ''
+  draft_loaded_message: ''
+  draft_pending_single_message: ''
+  draft_pending_multiple_message: ''
+  confirmation_type: url_message
+  confirmation_url: '<front>'
+  confirmation_title: ''
+  confirmation_message: '&Ouml;n jelentkezett a megjel&ouml;lt k&eacute;pz&eacute;sre. Nemsok&aacute;ra emailt fog kapni ez ittt bek&uuml;ld&ouml;tt adatokkal.'
+  confirmation_attributes: {  }
+  confirmation_back: true
+  confirmation_back_label: ''
+  confirmation_back_attributes: {  }
+  confirmation_exclude_query: false
+  confirmation_exclude_token: false
+  confirmation_update: false
+  limit_total: null
+  limit_total_interval: null
+  limit_total_message: ''
+  limit_total_unique: false
+  limit_user: null
+  limit_user_interval: null
+  limit_user_message: ''
+  limit_user_unique: false
+  entity_limit_total: null
+  entity_limit_total_interval: null
+  entity_limit_user: null
+  entity_limit_user_interval: null
+  purge: none
+  purge_days: null
+  results_disabled: false
+  results_disabled_ignore: false
+  results_customize: false
+  token_view: false
+  token_update: false
+  token_delete: false
+  serial_disabled: false
+access:
+  create:
+    roles:
+      - anonymous
+      - authenticated
+    users: {  }
+    permissions: {  }
+  view_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  update_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  delete_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  purge_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  view_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  update_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  administer:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  test:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  configuration:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+handlers:
+  e_mail_az_adminnak:
+    id: email
+    handler_id: e_mail_az_adminnak
+    label: 'E-mail az adminnak'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      states:
+        - completed
+      to_mail: info@dialogus.hu
+      to_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: '[webform_submission:values:nev:raw]'
+      from_options: {  }
+      from_name: '[webform_submission:values:e_mail_cim:raw]'
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: 'Jelentkezés a weboldalról'
+      body: "<p>Bek&uuml;ldve: [webform_submission:created]</p>\r\n\r\n<p>Bek&uuml;ld&ouml;tt &eacute;rt&eacute;kek:</p>\r\n[webform_submission:values]"
+      excluded_elements:
+        terms_of_service: terms_of_service
+        captcha: captcha
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      parameters: {  }
+      debug: false
+  e_mail_a_kitoltonek:
+    id: email
+    handler_id: e_mail_a_kitoltonek
+    label: 'E-mail a kitöltőnek'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      states:
+        - completed
+      to_mail: '[webform_submission:values:e_mail_cim:raw]'
+      to_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: '[site:name]'
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: 'Jelentkezés beküldés a Dialógus akadémiára'
+      body: "<p>Beküldési időpont [webform_submission:created]</p>\r\n\r\n<p>A beküldött értékek:</p>\r\n[webform_submission:values]"
+      excluded_elements:
+        terms_of_service: terms_of_service
+        captcha: captcha
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      parameters: {  }
+      debug: false
+variants: {  }

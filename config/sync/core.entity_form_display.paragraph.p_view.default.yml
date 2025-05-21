@@ -1,0 +1,27 @@
+uuid: 30a345f2-8723-4100-9733-600603b367d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.p_view.field_p_viewsreference
+    - paragraphs.paragraphs_type.p_view
+  module:
+    - viewsreference
+id: paragraph.p_view.default
+targetEntityType: paragraph
+bundle: p_view
+mode: default
+content:
+  field_p_viewsreference:
+    type: viewsreference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

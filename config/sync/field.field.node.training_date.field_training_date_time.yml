@@ -1,0 +1,29 @@
+uuid: d493af1d-6217-492f-8bd2-b180d14c1f90
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_training_date_time
+    - node.type.training_date
+    - taxonomy.vocabulary.napszak
+id: node.training_date.field_training_date_time
+field_name: field_training_date_time
+entity_type: node
+bundle: training_date
+label: Napszak
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      napszak: napszak
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

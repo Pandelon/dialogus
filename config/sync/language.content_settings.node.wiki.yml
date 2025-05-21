@@ -1,0 +1,11 @@
+uuid: 888e76ac-2544-42d8-bbe9-7f971f7f0626
+langcode: hu
+status: true
+dependencies:
+  config:
+    - node.type.wiki
+id: node.wiki
+target_entity_type_id: node
+target_bundle: wiki
+default_langcode: site_default
+language_alterable: false

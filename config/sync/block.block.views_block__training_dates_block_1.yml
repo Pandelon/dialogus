@@ -1,0 +1,33 @@
+uuid: c207913e-4a8d-47ce-96b7-f499698d230c
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.training_dates
+  module:
+    - ctools
+    - views
+  theme:
+    - dialogus
+id: views_block__training_dates_block_1
+theme: dialogus
+region: content
+weight: -6
+provider: null
+plugin: 'views_block:training_dates-block_1'
+settings:
+  id: 'views_block:training_dates-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      training: training

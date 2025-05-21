@@ -1,0 +1,33 @@
+uuid: 41d5b5d6-5f70-4e8a-900d-31c18ea4765b
+langcode: hu
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:8c27f609-a5a7-4da1-936f-83c72793ce24'
+  module:
+    - block_content
+    - ctools
+  theme:
+    - dialogus
+id: trainingfooter
+theme: dialogus
+region: content
+weight: -4
+provider: null
+plugin: 'block_content:8c27f609-a5a7-4da1-936f-83c72793ce24'
+settings:
+  id: 'block_content:8c27f609-a5a7-4da1-936f-83c72793ce24'
+  label: 'Training footer'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      training: training

@@ -1,0 +1,4 @@
+[21-May-2025 21:19:39 Europe/Budapest] Uncaught PHP Exception Drupal\Core\Theme\MissingThemeDependencyException: "Base theme stable9 has not been installed." at /var/www/html/web/core/lib/Drupal/Core/Theme/ThemeInitialization.php line 115
+[21-May-2025 21:20:45 Europe/Budapest] Uncaught PHP Exception Drupal\Core\Theme\MissingThemeDependencyException: "Base theme stable9 has not been installed." at /var/www/html/web/core/lib/Drupal/Core/Theme/ThemeInitialization.php line 115
+[21-May-2025 21:24:07 Europe/Budapest] Uncaught PHP Exception Drupal\Core\Theme\MissingThemeDependencyException: "Base theme stable9 has not been installed." at /var/www/html/web/core/lib/Drupal/Core/Theme/ThemeInitialization.php line 115
+[21-May-2025 21:24:32 Europe/Budapest] Uncaught PHP Exception Drupal\Core\Theme\MissingThemeDependencyException: "Base theme stable9 has not been installed." at /var/www/html/web/core/lib/Drupal/Core/Theme/ThemeInitialization.php line 115

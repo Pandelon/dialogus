@@ -1,0 +1,20 @@
+uuid: 80345b33-7819-4e66-9623-e3876aa3031b
+langcode: hu
+status: true
+dependencies:
+  theme:
+    - dialogus
+_core:
+  default_config_hash: _0ZyPKUqcQMu9FlcCoa_Y-No4zdv-wUNF4hlSj60yi0
+id: dialogus_page_title
+theme: dialogus
+region: content
+weight: -11
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

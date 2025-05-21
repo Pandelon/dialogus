@@ -1,0 +1,25 @@
+name: 'Dialogus'
+type: theme
+description: 'B4 subtheme subtheme based on Bootstrap 4 theme.'
+core_version_requirement: '^10 || ^11'
+'base theme': bootstrap4
+libraries:
+  - dialogus/global-styling
+stylesheets-remove:
+  - '@bootstrap4/css/style.css'
+regions:
+  header: Header
+  nav_branding: 'Navigation branding region'
+  nav_main: 'Main navigation region'
+  breadcrumb: Breadcrumbs
+  content: 'Main content'
+  front1: 'Front content 1'
+  front2: 'Front content 2'
+  front3: 'Front content 3'
+  front4: 'Front content 4'
+
+  sidebar_second: 'Sidebar second'
+  footer1: 'Footer 1'
+  footer2: 'Footer 2'
+  footer3: 'Footer 3'
+

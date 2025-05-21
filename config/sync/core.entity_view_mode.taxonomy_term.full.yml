@@ -1,0 +1,13 @@
+uuid: 4b301eec-d897-4c53-981c-79f4e8d36d4c
+langcode: hu
+status: true
+dependencies:
+  module:
+    - taxonomy
+_core:
+  default_config_hash: '-PPKjsNQPvoIDjOuUAvlLocYD976MNjb9Zpgyz5_BWE'
+id: taxonomy_term.full
+label: 'Taxonómiakifejezés oldal'
+description: ''
+targetEntityType: taxonomy_term
+cache: true

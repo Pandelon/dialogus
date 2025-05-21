@@ -1,0 +1,32 @@
+uuid: c82aefdb-bc12-4085-8d60-46ec93c68447
+langcode: hu
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+    - filter.format.webform_default
+  module:
+    - contact
+    - eu_cookie_compliance
+    - file
+    - filter
+    - google_analytics
+    - search
+    - shortcut
+    - system
+_core:
+  default_config_hash: btW6TFHajhy7Eo6YUvdFiPh4TcPggo8GBXYctjV6zag
+id: authenticated
+label: 'Authenticated user'
+weight: 1
+is_admin: false
+permissions:
+  - 'access content'
+  - 'access shortcuts'
+  - 'access site-wide contact form'
+  - 'delete own files'
+  - 'display eu cookie compliance popup'
+  - 'opt-in or out of google analytics tracking'
+  - 'search content'
+  - 'use text format basic_html'
+  - 'use text format webform_default'

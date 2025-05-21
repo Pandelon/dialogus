@@ -1,0 +1,8 @@
+uuid: 7ea2142c-c527-4658-8116-529ba1d1cf28
+langcode: hu
+status: true
+dependencies: {  }
+id: csak_datum
+label: 'Csak dátum'
+locked: false
+pattern: 'Y. F d.'

@@ -1,0 +1,19 @@
+body {
+  font-family: 'Work Sans', sans-serif;
+}
+
+html,body {
+  height:100%;
+}
+
+a {
+  color: $dia-orange;
+
+
+}
+
+a {
+  &:hover {
+    color: $dia_link
+  }
+}

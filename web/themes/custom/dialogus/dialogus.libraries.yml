@@ -1,0 +1,8 @@
+global-styling:
+  css:
+    theme:
+      css/style.css: {}
+      fontawesome/css/fontawesome.min.css: {}
+      fontawesome/css/all.min.css: {}
+  js:
+      scripts/theme.js: {}

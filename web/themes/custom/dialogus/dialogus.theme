@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * B4 subtheme theme file.
+ */
+
+/**
+ * Prepares variables for the html.html.twig template.
+ */
+
+
+function dialogus_preprocess_html(&$variables) {
+  if ($node = \Drupal::request()->attributes->get('node')) {
+    $variables['attributes']['class'][] = 'page-node-' . $node->id();
+  }
+}

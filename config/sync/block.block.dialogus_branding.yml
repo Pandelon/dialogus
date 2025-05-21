@@ -1,0 +1,25 @@
+uuid: 8b2039b2-cc47-4e52-933f-543dc99284dc
+langcode: hu
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dialogus
+_core:
+  default_config_hash: 0XmTH5dbJRl-fsDBgX10MzeFMarkhKpzU7ZGdGPfAMU
+id: dialogus_branding
+theme: dialogus
+region: nav_branding
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: true
+visibility: {  }

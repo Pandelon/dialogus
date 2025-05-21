@@ -1,0 +1,14 @@
+uuid: f4bc18b1-f6b7-4233-91af-87451936d644
+langcode: hu
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: vymHlgJy26BuI5GGj9-IXjwR3dRC5C0tij4BpWJnoqw
+id: feedback
+label: 'Visszajelzés a webhelyről'
+recipients:
+  - admin@wampserver.invalid
+reply: ''
+weight: 0
+message: 'Az &uuml;zenet el lett k&uuml;ldve'
+redirect: ''

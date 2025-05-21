@@ -1,0 +1,9 @@
+uuid: 363e31a6-dc99-4f48-bd11-69f036dd2ccf
+langcode: hu
+status: true
+dependencies: {  }
+name: Kategória
+vid: category
+description: null
+weight: 0
+new_revision: false

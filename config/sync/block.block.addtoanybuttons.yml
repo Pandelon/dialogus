@@ -1,0 +1,20 @@
+uuid: 8c404303-8c78-4e0f-92df-b8eae0ea2acf
+langcode: hu
+status: false
+dependencies:
+  module:
+    - addtoany
+  theme:
+    - dialogus
+id: addtoanybuttons
+theme: dialogus
+region: content
+weight: -2
+provider: null
+plugin: addtoany_block
+settings:
+  id: addtoany_block
+  label: 'AddToAny buttons'
+  label_display: '0'
+  provider: addtoany
+visibility: {  }

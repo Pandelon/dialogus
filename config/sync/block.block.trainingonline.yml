@@ -1,0 +1,33 @@
+uuid: 26d29bae-03e8-4c93-8b2c-b92151e97e0f
+langcode: hu
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:1f7e45b5-c66a-4cfa-9074-b2867a4ceb0f'
+  module:
+    - block_content
+    - ctools
+  theme:
+    - dialogus
+id: trainingonline
+theme: dialogus
+region: content
+weight: -3
+provider: null
+plugin: 'block_content:1f7e45b5-c66a-4cfa-9074-b2867a4ceb0f'
+settings:
+  id: 'block_content:1f7e45b5-c66a-4cfa-9074-b2867a4ceb0f'
+  label: 'Training online'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      training: training

@@ -1,0 +1,37 @@
+#block-mainnavigation {
+ ul {
+   li {
+     > a.nav-link {
+       font-family: 'BenchNine', sans-serif;
+       color: $dia-red-300;
+       font-size: 1.6rem;
+       white-space: nowrap;
+       padding: 3px 5px;
+       letter-spacing: -.5px;
+       text-transform: uppercase;
+
+       &:hover {
+         background: #c8c8c8;
+       }
+     }
+   }
+  }
+}
+
+ul.show > li > a {
+  font-size: 1.4rem;
+
+}
+h2, .h2 {
+  font-size: 2.5rem;
+  font-family: 'Alumni Sans', sans-serif;
+}
+h3, h4, h5 {
+  font-family: 'Alumni Sans', sans-serif;
+}
+
+h5 {
+  font-size: 1.8rem;
+  font-family: 'Alumni Sans', sans-serif;
+  border-bottom: 2px solid #676767;
+}

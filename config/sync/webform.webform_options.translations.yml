@@ -1,0 +1,14 @@
+uuid: a21a486f-ad5f-446d-950c-c122f0d8bea4
+langcode: hu
+status: true
+dependencies:
+  enforced:
+    module:
+      - webform
+_core:
+  default_config_hash: Mb_L3vE-0IBZH5s2rjpk2LNn0QHClQP9AARQdCmVLt4
+id: translations
+label: Fordítások
+category: Language
+likert: false
+options: ''

@@ -1,0 +1,21 @@
+uuid: 888e09b7-f9fa-4abf-8e78-f327a5898b05
+langcode: hu
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_slider_text
+field_name: field_slider_text
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,19 @@
+uuid: ef0a418b-4635-44ca-968d-18bd248e2b97
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - footer
+      - main
+    parent: 'main:'
+name: GYIK
+type: faq
+description: null
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

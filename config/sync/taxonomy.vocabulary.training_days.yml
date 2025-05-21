@@ -1,0 +1,9 @@
+uuid: 18252e8b-20b0-4084-b38f-7623bf9e2101
+langcode: hu
+status: true
+dependencies: {  }
+name: 'Training days'
+vid: training_days
+description: null
+weight: 0
+new_revision: false

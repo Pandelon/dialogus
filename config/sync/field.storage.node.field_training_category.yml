@@ -1,0 +1,20 @@
+uuid: e48b2193-3e94-4653-8182-0120b4ddd43a
+langcode: hu
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_training_category
+field_name: field_training_category
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

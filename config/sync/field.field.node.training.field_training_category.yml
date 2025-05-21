@@ -1,0 +1,29 @@
+uuid: 3b7c51a3-e5f4-4e03-a54c-41ca43c098f1
+langcode: hu
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_training_category
+    - node.type.training
+    - taxonomy.vocabulary.category
+id: node.training.field_training_category
+field_name: field_training_category
+entity_type: node
+bundle: training
+label: Kategória
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      category: category
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

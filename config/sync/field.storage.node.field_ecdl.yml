@@ -1,0 +1,18 @@
+uuid: 1ca8eff8-7bbd-4807-a1ae-5763d11f4c6d
+langcode: hu
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_ecdl
+field_name: field_ecdl
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

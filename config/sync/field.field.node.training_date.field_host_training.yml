@@ -1,0 +1,29 @@
+uuid: 20372275-92a9-4580-b338-59b8638c7546
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_host_training
+    - node.type.training
+    - node.type.training_date
+id: node.training_date.field_host_training
+field_name: field_host_training
+entity_type: node
+bundle: training_date
+label: képzés
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      training: training
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

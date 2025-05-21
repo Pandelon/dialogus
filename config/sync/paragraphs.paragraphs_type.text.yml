@@ -1,0 +1,10 @@
+uuid: a96a6c10-8285-4eec-96dc-40f12e508f5f
+langcode: en
+status: true
+dependencies: {  }
+id: text
+label: Szöveg
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

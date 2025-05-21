@@ -1,0 +1,38 @@
+uuid: 0fc2d920-a326-4efe-a341-78d1c172c366
+langcode: hu
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_slider_pic
+    - node.type.slider
+  module:
+    - image
+id: node.slider.field_slider_pic
+field_name: field_slider_pic
+entity_type: node
+bundle: slider
+label: 'Slider kép'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: slider
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: false
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

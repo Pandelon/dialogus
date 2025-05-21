@@ -1,0 +1,15 @@
+uuid: 1030ed9f-627d-4103-89b9-46d9bfe0c2b7
+langcode: hu
+status: true
+dependencies: {  }
+name: front_promoted
+label: 'Front_promoted (500x250)'
+effects:
+  7728ef97-7f1f-4ae9-a106-1c7874240ee7:
+    uuid: 7728ef97-7f1f-4ae9-a106-1c7874240ee7
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 500
+      height: 250
+      anchor: center-center

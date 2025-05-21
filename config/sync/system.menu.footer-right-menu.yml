@@ -1,0 +1,8 @@
+uuid: fb8898a4-a0eb-443a-9045-e9ffa2b3bf56
+langcode: hu
+status: true
+dependencies: {  }
+id: footer-right-menu
+label: 'Lábléc - jobb oldali menu'
+description: 'applicaton forms menu'
+locked: false

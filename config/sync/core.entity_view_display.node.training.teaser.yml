@@ -1,0 +1,48 @@
+uuid: b1f4e4d6-2933-407e-b43a-b43ad7f82b89
+langcode: hu
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.training.body
+    - field.field.node.training.field_ecdl
+    - field.field.node.training.field_image
+    - field.field.node.training.field_training_category
+    - field.field.node.training.field_training_paragraph
+    - image.style.medium
+    - node.type.training
+  module:
+    - image
+    - text
+    - user
+id: node.training.teaser
+targetEntityType: node
+bundle: training
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 250
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: medium
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  addtoany: true
+  field_ecdl: true
+  field_training_category: true
+  field_training_paragraph: true
+  langcode: true
+  links: true

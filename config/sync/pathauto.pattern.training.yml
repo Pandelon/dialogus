@@ -1,0 +1,14 @@
+uuid: f6dde55b-bf91-4d61-9034-b161062b3935
+langcode: hu
+status: true
+dependencies:
+  module:
+    - node
+id: training
+label: Training
+type: 'canonical_entities:node'
+pattern: 'kepzes/[node:field_training_category:entity]/[node:title]'
+selection_criteria: {  }
+selection_logic: and
+weight: 0
+relationships: {  }

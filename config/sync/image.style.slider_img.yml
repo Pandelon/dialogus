@@ -1,0 +1,15 @@
+uuid: ce7a275a-6e53-488c-a9e4-91b3992b2564
+langcode: hu
+status: true
+dependencies: {  }
+name: slider_img
+label: 'Slider kép'
+effects:
+  94a46319-be86-4d72-a76d-29d95c39e8f1:
+    uuid: 94a46319-be86-4d72-a76d-29d95c39e8f1
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1920
+      height: 600
+      anchor: center-center

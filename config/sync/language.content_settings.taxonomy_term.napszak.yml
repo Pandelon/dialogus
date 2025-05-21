@@ -1,0 +1,11 @@
+uuid: d621f10d-cf98-444e-8897-ba669827b53f
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.napszak
+id: taxonomy_term.napszak
+target_entity_type_id: taxonomy_term
+target_bundle: napszak
+default_langcode: site_default
+language_alterable: false

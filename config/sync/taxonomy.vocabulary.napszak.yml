@@ -1,0 +1,9 @@
+uuid: 45fa2bf7-31b7-42b5-9938-6f62cfaf08e0
+langcode: hu
+status: true
+dependencies: {  }
+name: Napszak
+vid: napszak
+description: null
+weight: 0
+new_revision: false

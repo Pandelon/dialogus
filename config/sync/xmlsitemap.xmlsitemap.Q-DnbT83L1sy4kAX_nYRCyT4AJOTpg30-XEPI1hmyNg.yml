@@ -1,0 +1,8 @@
+uuid: e8cc3399-398f-453c-8ff7-ccdd9ad93832
+langcode: hu
+status: true
+dependencies: {  }
+id: Q-DnbT83L1sy4kAX_nYRCyT4AJOTpg30-XEPI1hmyNg
+label: 'http://dialogus.loc'
+context:
+  language: hu

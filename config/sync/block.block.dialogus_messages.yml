@@ -1,0 +1,22 @@
+uuid: 8da8c31d-daa0-4783-9a76-06bfad21df5f
+langcode: hu
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dialogus
+_core:
+  default_config_hash: tZtWC6EKIYALVtpV4mPz79GsLZD6IFWb7Wk1B7Rd8Go
+id: dialogus_messages
+theme: dialogus
+region: content
+weight: -12
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

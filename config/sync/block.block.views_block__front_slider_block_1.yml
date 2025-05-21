@@ -1,0 +1,24 @@
+uuid: c029cf5a-e2a6-4bd7-9e60-baa81d6eebdd
+langcode: hu
+status: true
+dependencies:
+  config:
+    - views.view.front_slider
+  module:
+    - views
+  theme:
+    - dialogus
+id: views_block__front_slider_block_1
+theme: dialogus
+region: front1
+weight: 0
+provider: null
+plugin: 'views_block:front_slider-block_1'
+settings:
+  id: 'views_block:front_slider-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

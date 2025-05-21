@@ -1,0 +1,22 @@
+uuid: facb5e86-52fd-4e8b-8a73-40f5c6d9d6ea
+langcode: hu
+status: true
+dependencies:
+  theme:
+    - dialogus
+_core:
+  default_config_hash: IzSbK3zk-Gon9y7WLEWop15Wn__7LeKzBJIXqajlb00
+id: dialogus_local_tasks
+theme: dialogus
+region: content
+weight: -10
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

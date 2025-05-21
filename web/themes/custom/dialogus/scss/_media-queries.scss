@@ -1,0 +1,107 @@
+@media only screen and (max-width : 480px){
+  .navbar-brand {
+    margin: 1.5em;
+  }
+  .navbar {
+
+      position: relative;
+
+  }
+  .navbar-light .navbar-toggler {
+
+    position: absolute;
+    right: 0;
+    top: 40px;
+  }
+  .region-header {
+  display: block;
+  }
+
+  footer.mt-auto {
+   display: block;
+    #block-footerinfo {
+      border:none;
+      padding: 2rem 0;
+    }
+    font-size: .8rem;
+
+    .nav-link {
+      padding: .2rem 0;
+    }
+    #block-footercredentials {
+      margin: 1em 0;
+    }
+  }
+
+  .view-promoted-trainings .view-content {
+    display: block;
+    margin-bottom: 50px;
+  }
+
+  .flexslider {
+    display: none;
+  }
+
+  .view-promoted-trainings .views-row {
+    margin-top: 3em;
+  }
+
+  main td {
+    padding: 5px;
+  }
+  .dropdown-menu.show {
+    margin-left: 1em;
+  }
+
+  #block-dialogus-search-form {
+    width: 100%;
+
+    #edit-keys {
+      margin-bottom: .5rem;
+    }
+    #edit-submit {
+      //width: 160px;
+    }
+  }
+  .navbar.navbar-expand-lg {
+    margin-top: 80px;
+  }
+  #block-headerinfo,
+  #block-dialogus-search-form {
+    //width: 50%;
+  }
+  footer.footer.mt-auto {
+    display: block;
+
+    &::after {
+      font-size: 5em;
+      right: 2rem;
+    }
+  }
+  .table450 {
+    max-width: 100% !important;
+  }
+
+  // oldalak
+  .page-node-82,
+  .page-node-88,
+  .page-node-11,
+  .page-node-87 {
+    #block-dialogus-page-title {
+      position: relative;
+      &:before {
+        position: absolute;
+        content: "";
+        background-image: url("../img/logo-ECD_k.png");
+        opacity: 0.4;
+        background-repeat: no-repeat;
+        background-position: top 30px right 0px;
+        background-size: 120px;
+        //inset: 0;
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+}

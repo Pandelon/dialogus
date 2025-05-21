@@ -1,0 +1,7 @@
+uuid: ce5d8ed6-fc8c-4807-b792-020c2c569f8f
+langcode: hu
+status: false
+dependencies: {  }
+formId: node_training_form
+captchaType: default
+label: node_training_form

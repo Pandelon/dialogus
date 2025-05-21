@@ -1,0 +1,25 @@
+uuid: 492ee152-d2da-4d41-a93c-ab3a98a27a32
+langcode: hu
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:7b937159-fe06-45ec-8f25-046d5436b384'
+  module:
+    - block_content
+  theme:
+    - dialogus
+id: footerinfo
+theme: dialogus
+region: footer2
+weight: -11
+provider: null
+plugin: 'block_content:7b937159-fe06-45ec-8f25-046d5436b384'
+settings:
+  id: 'block_content:7b937159-fe06-45ec-8f25-046d5436b384'
+  label: 'Footer info'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

@@ -1,0 +1,29 @@
+uuid: d497238d-ba46-4723-b5d4-e01db88722c3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_training_days
+    - node.type.training_date
+    - taxonomy.vocabulary.training_days
+id: node.training_date.field_training_days
+field_name: field_training_days
+entity_type: node
+bundle: training_date
+label: 'Képzési napok'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      training_days: training_days
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

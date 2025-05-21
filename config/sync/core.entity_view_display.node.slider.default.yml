@@ -1,0 +1,67 @@
+uuid: f73297bd-fd2b-450f-82ee-0f03d4c1cfb0
+langcode: hu
+status: true
+dependencies:
+  config:
+    - field.field.node.slider.body
+    - field.field.node.slider.field_slider_pic
+    - field.field.node.slider.field_slider_text
+    - field.field.node.slider.field_slider_url
+    - image.style.slider_img
+    - node.type.slider
+  module:
+    - image
+    - link
+    - text
+    - user
+id: node.slider.default
+targetEntityType: node
+bundle: slider
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_slider_pic:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: slider_img
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_slider_text:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_slider_url:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  addtoany: true
+  langcode: true

@@ -1,0 +1,24 @@
+uuid: 536735ab-bd7a-4847-9711-a147fcf88869
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.p_view.field_p_viewsreference
+    - paragraphs.paragraphs_type.p_view
+  module:
+    - viewsreference
+id: paragraph.p_view.default
+targetEntityType: paragraph
+bundle: p_view
+mode: default
+content:
+  field_p_viewsreference:
+    type: viewsreference_formatter
+    label: hidden
+    settings:
+      plugin_types:
+        - block
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

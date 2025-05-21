@@ -1,0 +1,20 @@
+uuid: d032d12c-09a1-4f5f-9b83-d78a60dd7788
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_training_date_time
+field_name: field_training_date_time
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

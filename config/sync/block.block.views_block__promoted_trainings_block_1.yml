@@ -1,0 +1,24 @@
+uuid: b6a41be6-cc75-4ced-b24f-19307c112072
+langcode: hu
+status: true
+dependencies:
+  config:
+    - views.view.promoted_trainings
+  module:
+    - views
+  theme:
+    - dialogus
+id: views_block__promoted_trainings_block_1
+theme: dialogus
+region: front3
+weight: 0
+provider: null
+plugin: 'views_block:promoted_trainings-block_1'
+settings:
+  id: 'views_block:promoted_trainings-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: '6'
+visibility: {  }

@@ -1,0 +1,27 @@
+uuid: 12de35f1-99ac-4e9c-a506-bca9c776c597
+langcode: hu
+status: true
+dependencies:
+  config:
+    - system.menu.footer
+  module:
+    - system
+  theme:
+    - dialogus
+_core:
+  default_config_hash: aFKksJmiEhSztWNw-j-SbfzO88axvjNIZsjFBcNtI6o
+id: dialogus_footer
+theme: dialogus
+region: footer1
+weight: -11
+provider: null
+plugin: 'system_menu_block:footer'
+settings:
+  id: 'system_menu_block:footer'
+  label: Footer
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

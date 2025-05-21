@@ -1,0 +1,49 @@
+uuid: 1d7817ec-fd4b-4768-8e96-6a918afc18be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_p_viewsreference
+    - paragraphs.paragraphs_type.p_view
+  module:
+    - viewsreference
+id: paragraph.p_view.field_p_viewsreference
+field_name: field_p_viewsreference
+entity_type: paragraph
+bundle: p_view
+label: 'kezdési dátum'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:view'
+  handler_settings:
+    target_bundles: null
+    auto_create: 0
+  plugin_types:
+    block: block
+    default: 0
+    page: 0
+    feed: 0
+    entity_reference: 0
+    embed: 0
+  preselect_views:
+    training_dates: training_dates
+    block_content: 0
+    content: 0
+    content_recent: 0
+    files: 0
+    frontpage: 0
+    front_slider: 0
+    news: 0
+    promoted_trainings: 0
+    taxonomy_term: 0
+    training_lists: 0
+    user_admin_people: 0
+    watchdog: 0
+    webform_submissions: 0
+    who_s_new: 0
+    who_s_online: 0
+field_type: viewsreference

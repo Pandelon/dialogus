@@ -1,0 +1,23 @@
+uuid: 83c16267-5207-4e10-8910-67bb16bdb9db
+langcode: hu
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.wiki
+  module:
+    - text
+id: node.wiki.body
+field_name: body
+entity_type: node
+bundle: wiki
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

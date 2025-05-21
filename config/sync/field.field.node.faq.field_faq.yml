@@ -1,0 +1,22 @@
+uuid: acff5324-2076-4d23-86b9-152a89a7fdda
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_faq
+    - node.type.faq
+  module:
+    - faqfield
+id: node.faq.field_faq
+field_name: field_faq
+entity_type: node
+bundle: faq
+label: Kérdés
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  default_format: plain_text
+field_type: faqfield

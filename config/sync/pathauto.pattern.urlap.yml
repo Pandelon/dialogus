@@ -1,0 +1,22 @@
+uuid: af318fe4-75d0-4f6d-9ccb-f2a398e5624f
+langcode: hu
+status: true
+dependencies:
+  module:
+    - node
+id: urlap
+label: Űrlap
+type: 'canonical_entities:node'
+pattern: 'urlap/[node:title]'
+selection_criteria:
+  065bed7d-e794-4a9d-8072-ae77a94e5628:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 065bed7d-e794-4a9d-8072-ae77a94e5628
+    context_mapping:
+      node: node
+    bundles:
+      webform: webform
+selection_logic: and
+weight: -5
+relationships: {  }

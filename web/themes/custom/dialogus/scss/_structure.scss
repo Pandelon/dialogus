@@ -1,0 +1,224 @@
+
+#front2  {
+  background-image: url("../img/dialogus_bgd3.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  .container {
+    background: rgba(white,0.7);
+    padding: 2em 1rem;
+  }
+}
+
+#front3 {
+  background-color: $dia-red-300;
+  padding: 4em 2em 2em 2em;
+  .container {
+    background-color: $dia-red-300;
+  }
+}
+main {
+  flex-grow: 1;
+
+  .row > div {
+    background: url("../img/dia_content_bgd.jpg") no-repeat $dia-red-300;
+
+    .container {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 1em;
+      min-height: 500px;
+
+      .region-content {
+        background-color: rgba(255, 255, 255, 0.75);
+        padding: 1em;
+      }
+    }
+
+    .container-fluid {
+      background: url("../img/dia_content_bgd.jpg") $dia-red-300;
+    }
+  }
+}
+
+.region-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #c8c8c8;
+  padding: 5px 15px;
+  position: fixed;
+  width: 100%;
+  z-index: 20;
+}
+
+.navbar {
+  padding-top: 0;
+}
+
+.navbar.navbar-expand-lg {
+  margin-top: 40px;
+}
+
+.breadcrumb {
+  background-color: $dia-red-600;
+  margin-bottom: 0;
+}
+
+.region-content {
+  padding: 1em 0;
+}
+
+footer.footer {
+  padding: 0;
+  position: relative;
+
+  &.mt-auto {
+    display: flex;
+    background-color: $gray-700;
+    color: #fff;
+    padding: 1rem;
+    margin-top: 0 !important;
+  }
+
+  &::after {
+    position: absolute;
+    content: 'dialógus';
+    font-size: 8em;
+    color: rgba(black, .2);
+    font-weight: 700;
+    top: 0;
+    left: 4rem;
+  }
+
+  a {
+    color: #F4D05C;
+
+    &:hover {
+      color: $dia-orange;
+    }
+  }
+
+  .nav-link {
+    padding: 0.25rem 1rem; ;
+  }
+}
+
+#block-footercredentials {
+  margin: 1rem;
+}
+
+
+#block-dialogus-content {
+  padding-bottom: 2em;
+  padding-top: 1rem;
+}
+
+#block-footerinfo {
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  padding: 1rem;
+}
+.page-node-type-webform {
+  form {
+    position: relative;
+    z-index: 10;
+  }
+
+}
+
+.page-node-46 main .row .container { /* IT form */
+  background-color: $dia-it-100;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: 'IT';
+    top: 1rem;
+    right: 2rem;
+    font-size: 50vw;
+    font-weight: bold;
+    line-height: 1.1em;
+    color: rgba($dia-it-300, .15);
+    mix-blend-mode: multiply;
+  }
+
+  .field--name-title {
+    color: $dia-it-600;
+  }
+  .form-control {
+    //border-bottom: 2px solid $dia-it-600;
+
+    :focus {
+      border-color: $dia-it-300;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba($dia-it-300, 0.25);
+    }
+  }
+}
+
+.page-node-43 main .row .container { /* ECDL form   */
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: 'ECDL';
+    top: 1rem;
+    right: 2rem;
+    font-size: 20vw;
+    font-weight: bold;
+    line-height: 1.1em;
+    color: rgba($dia-it-300, .2);
+    mix-blend-mode: multiply;
+  }
+
+  .field--name-title {
+    color: $dia-it-600;
+  }
+}
+
+.page-title {
+   border-bottom: 1px solid #121212;
+  padding-bottom: 1rem;
+}
+
+div#sliding-popup, div#sliding-popup .eu-cookie-withdraw-banner, .eu-cookie-withdraw-tab {
+  background: $dia-red-300;
+}
+
+.view-training-dates {
+  padding: 1em;
+  border: 2px solid #121212;
+
+  .field__label {
+    font-weight: normal;
+    width: 150px;
+  }
+}
+
+// tavfolyamok
+.page-node-39,
+.page-node-47,
+
+// oldalak
+.page-node-82,
+.page-node-88,
+.page-node-11,
+.page-node-87 {
+  main .row .container .block-system-main-block {
+    position: relative;
+    &:before {
+      position: absolute;
+      content: "";
+      background-image: url("../img/logo-ECD_k.png");
+      opacity: 0.4;
+      background-repeat: no-repeat;
+      background-position: top right;
+      background-size: 320px;
+      //inset: 0;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+.path-frontpage article footer {
+  display: none;
+}

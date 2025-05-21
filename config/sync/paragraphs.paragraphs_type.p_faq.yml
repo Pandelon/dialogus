@@ -1,0 +1,10 @@
+uuid: e07e179f-9652-4a78-b100-e31ab8e60218
+langcode: en
+status: true
+dependencies: {  }
+id: p_faq
+label: Kérdés-válasz
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

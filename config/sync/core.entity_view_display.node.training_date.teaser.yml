@@ -1,0 +1,84 @@
+uuid: 8c6c6c0f-322e-44be-b243-45db7b2f4d68
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.training_date.field_host_training
+    - field.field.node.training_date.field_training_date_time
+    - field.field.node.training_date.field_training_days
+    - field.field.node.training_date.field_training_last
+    - field.field.node.training_date.field_training_price
+    - field.field.node.training_date.field_training_start
+    - node.type.training_date
+  module:
+    - datetime
+    - ds
+    - user
+third_party_settings:
+  ds:
+    layout:
+      id: layout_onecol
+      library: layout_discovery/onecol
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        label: ''
+    regions:
+      content:
+        - field_training_start
+        - field_training_days
+        - field_training_date_time
+        - field_training_last
+        - field_training_price
+id: node.training_date.teaser
+targetEntityType: node
+bundle: training_date
+mode: teaser
+content:
+  field_training_date_time:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_training_days:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_training_last:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_training_price:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_training_start:
+    type: datetime_custom
+    label: inline
+    settings:
+      timezone_override: ''
+      date_format: 'Y. F d.'
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  addtoany: true
+  field_host_training: true
+  langcode: true
+  links: true

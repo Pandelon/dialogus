@@ -1,0 +1,22 @@
+uuid: 5c10296a-d93d-4968-9040-c47daf779b16
+langcode: hu
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dialogus
+_core:
+  default_config_hash: aJ6ps0sJm9MtQffqINgRms1JaSQgjsg68REaPdN-BGk
+id: dialogus_content
+theme: dialogus
+region: content
+weight: -5
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,22 @@
+uuid: 89e3b86b-4d4c-43ca-90d9-d1594b058d40
+langcode: hu
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dialogus
+_core:
+  default_config_hash: B4RbOEFqUHi5Wx38pRiZzYXo1hhKzCpF50HCAvpOYf4
+id: dialogus_breadcrumbs
+theme: dialogus
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,11 @@
+uuid: cdaf72cf-2cba-4366-aec2-8973cfeb7573
+langcode: hu
+status: true
+dependencies:
+  module:
+    - shortcut
+id: shortcut.token
+label: Token
+description: ''
+targetEntityType: shortcut
+cache: true

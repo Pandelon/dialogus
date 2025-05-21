@@ -1,0 +1,23 @@
+uuid: 508b1ec2-deb7-49f9-a6ad-3dc24194b12b
+langcode: hu
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ecdl
+    - node.type.training
+id: node.training.field_ecdl
+field_name: field_ecdl
+entity_type: node
+bundle: training
+label: ECDL
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,129 @@
+uuid: 90b6689d-8add-44b1-a2fe-02361b9e1c62
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.full_html
+    - node.type.article
+    - node.type.page
+    - node.type.slider
+    - node.type.training
+    - node.type.webform
+    - taxonomy.vocabulary.category
+    - taxonomy.vocabulary.tags
+  module:
+    - block
+    - block_content
+    - contextual
+    - eu_cookie_compliance
+    - file
+    - filter
+    - help
+    - language
+    - node
+    - path
+    - pathauto
+    - search
+    - shortcut
+    - sitemap
+    - system
+    - taxonomy
+    - toolbar
+    - update
+    - webform
+    - webform_node
+    - webform_submission_log
+id: editor
+label: Szerkesztő
+weight: 3
+is_admin: null
+permissions:
+  - 'access administration pages'
+  - 'access any webform configuration'
+  - 'access block library'
+  - 'access content overview'
+  - 'access contextual links'
+  - 'access help pages'
+  - 'access site in maintenance mode'
+  - 'access sitemap'
+  - 'access taxonomy overview'
+  - 'access toolbar'
+  - 'access webform help'
+  - 'access webform overview'
+  - 'access webform submission log'
+  - 'administer block content'
+  - 'administer block types'
+  - 'administer blocks'
+  - 'administer languages'
+  - 'administer menu'
+  - 'administer nodes'
+  - 'administer search'
+  - 'administer shortcuts'
+  - 'administer site configuration'
+  - 'administer sitemap'
+  - 'administer taxonomy'
+  - 'administer webform'
+  - 'administer webform element access'
+  - 'administer webform submission'
+  - 'bypass node access'
+  - 'create article content'
+  - 'create page content'
+  - 'create slider content'
+  - 'create terms in category'
+  - 'create terms in tags'
+  - 'create training content'
+  - 'create url aliases'
+  - 'create webform'
+  - 'create webform content'
+  - 'delete any article content'
+  - 'delete any page content'
+  - 'delete any slider content'
+  - 'delete any training content'
+  - 'delete any webform content'
+  - 'delete article revisions'
+  - 'delete own article content'
+  - 'delete own files'
+  - 'delete own page content'
+  - 'delete own slider content'
+  - 'delete own training content'
+  - 'delete own webform content'
+  - 'delete own webform submission'
+  - 'delete page revisions'
+  - 'delete slider revisions'
+  - 'delete terms in category'
+  - 'delete terms in tags'
+  - 'delete training revisions'
+  - 'delete webform revisions'
+  - 'display eu cookie compliance popup'
+  - 'edit any article content'
+  - 'edit any page content'
+  - 'edit any slider content'
+  - 'edit any training content'
+  - 'edit any webform'
+  - 'edit any webform content'
+  - 'edit any webform submission'
+  - 'edit own article content'
+  - 'edit own page content'
+  - 'edit own slider content'
+  - 'edit own training content'
+  - 'edit own webform content'
+  - 'edit terms in category'
+  - 'edit terms in tags'
+  - 'edit webform assets'
+  - 'edit webform submissions any node'
+  - 'edit webform submissions own node'
+  - 'link to any page'
+  - 'notify of path changes'
+  - 'revert article revisions'
+  - 'revert page revisions'
+  - 'revert slider revisions'
+  - 'revert training revisions'
+  - 'revert webform revisions'
+  - 'use text format full_html'
+  - 'view article revisions'
+  - 'view page revisions'
+  - 'view slider revisions'
+  - 'view the administration theme'
+  - 'view training revisions'
+  - 'view update notifications'
+  - 'view webform revisions'
