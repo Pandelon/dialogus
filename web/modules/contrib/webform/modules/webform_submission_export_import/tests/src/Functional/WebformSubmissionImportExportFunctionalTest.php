@@ -28,7 +28,7 @@ class WebformSubmissionImportExportFunctionalTest extends WebformBrowserTestBase
   /**
    * Test submission import.
    */
-  public function testSubmissionExport() {
+  public function testSubmissionExport(): void {
     $this->drupalLogin($this->rootUser);
 
     /** @var \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator */
@@ -86,6 +86,11 @@ class WebformSubmissionImportExportFunctionalTest extends WebformBrowserTestBase
       $expected_values = $original_submission->toArray(TRUE);
       $updated_submission = $this->loadSubmissionByProperty('uuid', $original_submission->uuid());
       $actual_values = $updated_submission->toArray(TRUE);
+      // Ignore the changed property.
+      unset(
+        $expected_values['changed'],
+        $actual_values['changed']
+      );
       $this->assertEquals($expected_values, $actual_values);
     }
 
@@ -155,7 +160,7 @@ class WebformSubmissionImportExportFunctionalTest extends WebformBrowserTestBase
   /**
    * Test submission import.
    */
-  public function testSubmissionImport() {
+  public function testSubmissionImport(): void {
     /** @var \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator */
     $file_url_generator = \Drupal::service('file_url_generator');
 

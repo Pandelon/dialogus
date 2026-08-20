@@ -4,6 +4,7 @@ namespace Drupal\faqfield\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Plugin implementation of the 'faqfield_simple_text' formatter.
@@ -17,6 +18,38 @@ use Drupal\Core\Field\FormatterBase;
  * )
  */
 class FaqFieldSimpleTextFormatter extends FormatterBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function defaultSettings() {
+    return [
+      'question_tag' => 'h3',
+    ] + parent::defaultSettings();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, FormStateInterface $form_state) {
+    $elements = parent::settingsForm($form, $form_state);
+    // An HTML tag for the question.
+    $elements['question_tag'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Question HTML tag'),
+      '#default_value' => $this->getSetting('question_tag'),
+      '#options' => [
+        'h2' => 'h2',
+        'h3' => 'h3',
+        'h4' => 'h4',
+        'h5' => 'h5',
+        'h6' => 'h6',
+      ],
+      '#description' => $this->t('An HTML tag that wraps the question.'),
+    ];
+
+    return $elements;
+  }
 
   /**
    * {@inheritdoc}
@@ -36,6 +69,7 @@ class FaqFieldSimpleTextFormatter extends FormatterBase {
         '#answer' => $item->answer,
         '#answer_format' => $format,
         '#delta' => $delta,
+        '#question_tag' => $this->getSetting('question_tag'),
       ];
     }
 

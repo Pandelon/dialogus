@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/web/modules/contrib/google_analytics" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/web/modules/contrib/menu_breadcrumb" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/web/modules/contrib/viewsreference" vcs="Git" />
+  </component>
+</project>

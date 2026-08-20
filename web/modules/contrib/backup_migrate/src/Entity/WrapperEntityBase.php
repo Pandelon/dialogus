@@ -2,6 +2,7 @@
 
 namespace Drupal\backup_migrate\Entity;
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Entity\EntityWithPluginCollectionInterface;
 use Drupal\Core\Plugin\DefaultSingleLazyPluginCollection;
@@ -39,7 +40,10 @@ abstract class WrapperEntityBase extends ConfigEntityBase implements EntityWithP
   protected $pluginCollection;
 
   /**
+   * Gets the object.
+   *
    * @return SourcePluginInterface
+   *   The requested integer.
    *
    * @throws \Drupal\backup_migrate\Core\Exception\BackupMigrateException
    */
@@ -55,6 +59,7 @@ abstract class WrapperEntityBase extends ConfigEntityBase implements EntityWithP
    * Get the type plugin for this source.
    *
    * @return mixed
+   *   The return value.
    *
    * @throws \Drupal\backup_migrate\Core\Exception\BackupMigrateException
    */
@@ -69,6 +74,7 @@ abstract class WrapperEntityBase extends ConfigEntityBase implements EntityWithP
    * Get the type plugin for this source.
    *
    * @return mixed
+   *   The return value.
    *
    * @throws \Drupal\backup_migrate\Core\Exception\BackupMigrateException
    */
@@ -94,7 +100,10 @@ abstract class WrapperEntityBase extends ConfigEntityBase implements EntityWithP
   }
 
   /**
+   * Gets the plugin collection.
+   *
    * @return \Drupal\block\BlockPluginCollection
+   *   The return value.
    */
   public function getPluginCollection() {
     if ($this->get('type')) {
@@ -111,11 +120,11 @@ abstract class WrapperEntityBase extends ConfigEntityBase implements EntityWithP
   /**
    * {@inheritdoc}
    */
-  public function access($operation, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($operation, AccountInterface|null $account = NULL, $return_as_object = FALSE) {
     if ($operation == "update" || $operation == "delete") {
       $info = $this->getPluginDefinition();
       if (!empty($info['locked'])) {
-        return FALSE;
+        return AccessResult::forbidden();
       }
     }
 
@@ -126,6 +135,7 @@ abstract class WrapperEntityBase extends ConfigEntityBase implements EntityWithP
    * Return the plugin manager.
    *
    * @return \Drupal\Component\Plugin\PluginManagerInterface
+   *   The requested integer.
    */
   abstract public function getPluginManager();
 

@@ -7,7 +7,7 @@ dependencies:
   - drupal:field
   - jquery_ui_accordion:jquery_ui_accordion
 
-# Information added by Drupal.org packaging script on 2024-11-28
-version: '8.0.0'
+# Information added by Drupal.org packaging script on 2026-01-01
+version: '8.0.1'
 project: 'faqfield'
-datestamp: 1732814306
+datestamp: 1767285979

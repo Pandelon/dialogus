@@ -1,0 +1,5 @@
+
+services:
+  Drupal\go_back_history\Hook\GoBackHistoryHooks:
+    class: Drupal\go_back_history\Hook\GoBackHistoryHooks
+    autowire: true

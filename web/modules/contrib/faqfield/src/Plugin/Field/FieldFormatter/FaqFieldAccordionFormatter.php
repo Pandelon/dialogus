@@ -24,6 +24,7 @@ class FaqFieldAccordionFormatter extends FormatterBase {
    */
   public static function defaultSettings() {
     return [
+      'question_tag' => 'h3',
       'active' => 0,
       'heightStyle' => 'auto',
       'collapsible' => FALSE,
@@ -40,6 +41,20 @@ class FaqFieldAccordionFormatter extends FormatterBase {
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $elements = parent::settingsForm($form, $form_state);
+    // An HTML tag for the question.
+    $elements['question_tag'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Question HTML tag'),
+      '#default_value' => $this->getSetting('question_tag'),
+      '#options' => [
+        'h2' => 'h2',
+        'h3' => 'h3',
+        'h4' => 'h4',
+        'h5' => 'h5',
+        'h6' => 'h6',
+      ],
+      '#description' => $this->t('An HTML tag that wraps the question.'),
+    ];
     // Number of first active element.
     $elements['active'] = [
       '#type' => 'number',
@@ -50,7 +65,7 @@ class FaqFieldAccordionFormatter extends FormatterBase {
       '#maxlength' => 3,
       '#size' => 5,
     ];
-    // Whether auto heigth is enabled.
+    // Whether auto height is enabled.
     $elements['heightStyle'] = [
       '#type' => 'select',
       '#title' => $this->t('Height style'),
@@ -62,7 +77,7 @@ class FaqFieldAccordionFormatter extends FormatterBase {
       ],
       '#description' => $this->t('Controls the height of the accordion and each panel.'),
     ];
-    // Whether elements are collabsible.
+    // Whether elements are collapsible.
     $elements['collapsible'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Fully collapsible'),
@@ -170,6 +185,7 @@ class FaqFieldAccordionFormatter extends FormatterBase {
         '#theme' => 'faqfield_jquery_accordion_formatter',
         '#items' => $element_items,
         '#id' => $faqfield_id,
+        '#question_tag' => $settings['question_tag'],
         '#attached' => [
           // Add FAQ Field accordion library.
           'library' => [

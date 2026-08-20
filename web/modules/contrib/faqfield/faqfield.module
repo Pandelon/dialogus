@@ -36,6 +36,7 @@ function faqfield_theme() {
         'answer' => NULL,
         'answer_format' => NULL,
         'delta' => NULL,
+        'question_tag' => 'h3',
       ],
       'template' => 'faqfield-simple-text-formatter',
     ],
@@ -51,6 +52,7 @@ function faqfield_theme() {
       'variables' => [
         'items' => [],
         'list_type' => 'ul',
+        'question_tag' => 'h3',
       ],
       'template' => 'faqfield-anchor-list-formatter',
     ],
@@ -59,6 +61,7 @@ function faqfield_theme() {
       'variables' => [
         'items' => [],
         'id' => NULL,
+        'question_tag' => 'h3',
       ],
       'template' => 'faqfield-jquery-accordion-formatter',
     ],
@@ -80,7 +83,7 @@ function faqfield_theme() {
  *
  * @param array $variables
  *   An associative array containing:
- *   - question: Prefiltered question value by strip_tags.
+ *   - question: Pre-filtered question value by strip_tags.
  *   - answer: Answer value.
  *   - answer_format: Answer markup format.
  *   - delta: Delta of field element.
@@ -96,7 +99,7 @@ function template_preprocess_faqfield_simple_text_formatter(array &$variables) {
  * @param array $variables
  *   An associative array containing:
  *   - question: fields.
- *    - question: Prefiltered question value by strip_tags.
+ *    - question: Pre-filtered question value by strip_tags.
  *   - answer: Answer value.
  *   - answer_format: Answer markup format.
  *   - delta: Delta of field element.
@@ -112,8 +115,8 @@ function template_preprocess_faqfield_details_formatter(array &$variables) {
  * @param array $variables
  *   An associative array containing:
  *   - items: An array of objects with the following fields.
- *    - question: Prefiltered question value by strip_tags.
- *    - answer: Prefiltered answer value by field setting format.
+ *    - question: Pre-filtered question value by strip_tags.
+ *    - answer: Pre-filtered answer value by field setting format.
  *    - answer_format: Answer markup format.
  */
 function template_preprocess_faqfield_definition_list_formatter(array &$variables) {
@@ -130,8 +133,8 @@ function template_preprocess_faqfield_definition_list_formatter(array &$variable
  * @param array $variables
  *   An associative array containing:
  *   - items: An array of objects with the following fields.
- *    - question: Prefiltered question value by strip_tags.
- *    - answer: Prefiltered answer value by field setting format.
+ *    - question: Pre-filtered question value by strip_tags.
+ *    - answer: Pre-filtered answer value by field setting format.
  *    - answer_format: Answer markup format.
  *    - name: String to be used as anchor name.
  *   - list_type: The type of HTML list used for the anchor link list.
@@ -152,8 +155,8 @@ function template_preprocess_faqfield_anchor_list_formatter(array &$variables) {
  * @param array $variables
  *   An associative array containing:
  *   - items: An array of objects with the following fields.
- *    - question: Prefiltered question value by strip_tags.
- *    - answer: Prefiltered answer value by field setting format.
+ *    - question: Pre-filtered question value by strip_tags.
+ *    - answer: Pre-filtered answer value by field setting format.
  *    - answer_format: Answer markup format.
  *   - id: Id to wrap the accordion markup in.
  */

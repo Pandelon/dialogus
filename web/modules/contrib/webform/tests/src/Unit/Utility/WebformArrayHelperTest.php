@@ -28,7 +28,7 @@ class WebformArrayHelperTest extends UnitTestCase {
    *
    * @dataProvider providerToString
    */
-  public function testToString(array $array, $conjunction, $expected) {
+  public function testToString(array $array, $conjunction, $expected): void {
     $result = WebformArrayHelper::toString($array, $conjunction);
     $this->assertEquals($expected, $result);
   }
@@ -59,7 +59,7 @@ class WebformArrayHelperTest extends UnitTestCase {
    *
    * @dataProvider providerIsAssociative
    */
-  public function testIsAssociative(array $array, $expected) {
+  public function testIsAssociative(array $array, $expected): void {
     $result = WebformArrayHelper::IsAssociative($array);
     $this->assertEquals($expected, $result);
   }
@@ -94,7 +94,7 @@ class WebformArrayHelperTest extends UnitTestCase {
    *
    * @dataProvider providerInArray
    */
-  public function testInArray(array $needles, array $haystack, $expected) {
+  public function testInArray(array $needles, array $haystack, $expected): void {
     $result = WebformArrayHelper::InArray($needles, $haystack);
     $this->assertEquals($expected, $result);
   }
@@ -122,7 +122,7 @@ class WebformArrayHelperTest extends UnitTestCase {
    * @see WebformArrayHelper::getPreviousKey()
    * @see WebformArrayHelper::getNextKey()
    */
-  public function testGetKey() {
+  public function testGetKey(): void {
     $array = [
       'one' => 'One',
       'two' => 'Two',
@@ -152,11 +152,43 @@ class WebformArrayHelperTest extends UnitTestCase {
    * @see WebformArrayHelper::addPrefix()
    * @see WebformArrayHelper::removePrefix()
    */
-  public function testPrefixing() {
+  public function testPrefixing(): void {
     $this->assertEquals(WebformArrayHelper::addPrefix(['test' => 'test']), ['#test' => 'test']);
     $this->assertEquals(WebformArrayHelper::addPrefix(['test' => 'test'], '@'), ['@test' => 'test']);
     $this->assertEquals(WebformArrayHelper::removePrefix(['#test' => 'test']), ['test' => 'test']);
     $this->assertEquals(WebformArrayHelper::removePrefix(['@test' => 'test'], '@'), ['test' => 'test']);
+  }
+
+  /**
+   * Tests array equal with WebformArrayHelper::equal().
+   *
+   * @param array $a
+   *   First array.
+   * @param array $b
+   *   Second array.
+   * @param string $expected
+   *   The expected result from calling the function.
+   *
+   * @see WebformArrayHelper::equal()
+   *
+   * @dataProvider providerEqual
+   */
+  public function testEqual(array $a, array $b, $expected): void {
+    $result = WebformArrayHelper::equal($a, $b);
+    $this->assertEquals($expected, $result);
+  }
+
+  /**
+   * Data provider for testEqual().
+   *
+   * @see testEqual()
+   */
+  public static function providerEqual() {
+    $tests[] = [[], [], TRUE];
+    $tests[] = [['A', 'B'], ['A', 'B'], TRUE];
+    $tests[] = [['B', 'A'], ['A', 'B'], TRUE];
+    $tests[] = [['A', 'B', 'C'], ['A', 'B'], FALSE];
+    return $tests;
   }
 
 }

@@ -2,29 +2,31 @@
 
 namespace Drupal\entity_usage\Plugin\EntityUsage\Track;
 
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity_usage\Attribute\EntityUsageTrack;
 use Drupal\entity_usage\EntityUsageTrackBase;
 use Drupal\entity_usage\EntityUsageTrackMultipleLoadInterface;
 
 /**
  * Tracks usage of entities related in entity_reference fields.
- *
- * @EntityUsageTrack(
- *   id = "entity_reference",
- *   label = @Translation("Entity Reference"),
- *   description = @Translation("Tracks relationships created with 'Entity Reference' fields."),
- *   field_types = {
- *     "entity_reference",
- *     "entity_reference_revisions",
- *     "entity_reference_entity_modify",
- *     "file",
- *     "image",
- *     "webform",
- *   },
- *   source_entity_class = "Drupal\Core\Entity\FieldableEntityInterface",
- * )
  */
+#[EntityUsageTrack(
+  id: 'entity_reference',
+  label: new TranslatableMarkup('Entity Reference'),
+  description: new TranslatableMarkup("Tracks relationships created with 'Entity Reference' fields."),
+  field_types: [
+    "entity_reference",
+    "entity_reference_revisions",
+    "entity_reference_entity_modify",
+    "file",
+    "image",
+    "webform",
+  ],
+  source_entity_class: FieldableEntityInterface::class,
+)]
 class EntityReference extends EntityUsageTrackBase implements EntityUsageTrackMultipleLoadInterface {
 
   /**
@@ -71,7 +73,6 @@ class EntityReference extends EntityUsageTrackBase implements EntityUsageTrackMu
     }
     else {
       foreach ($field as $item) {
-        /** @var \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem $item */
         $item_value = $item->get('target_id')->getValue();
         if (!empty($item_value)) {
           $entity_ids[] = $item_value;

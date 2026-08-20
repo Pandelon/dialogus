@@ -25,6 +25,7 @@ class FaqFieldAnchorListFormatter extends FormatterBase {
   public static function defaultSettings() {
     return [
       'anchor_list_type' => 'ul',
+      'question_tag' => 'h3',
     ] + parent::defaultSettings();
   }
 
@@ -43,6 +44,20 @@ class FaqFieldAnchorListFormatter extends FormatterBase {
         'ol' => $this->t('<ol> - Numeric list'),
       ],
       '#description' => $this->t('The type of HTML list used for the anchor link list.'),
+    ];
+    // An HTML tag for the question.
+    $elements['question_tag'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Question HTML tag'),
+      '#default_value' => $this->getSetting('question_tag'),
+      '#options' => [
+        'h2' => 'h2',
+        'h3' => 'h3',
+        'h4' => 'h4',
+        'h5' => 'h5',
+        'h6' => 'h6',
+      ],
+      '#description' => $this->t('An HTML tag that wraps the question.'),
     ];
 
     return $elements;
@@ -67,6 +82,7 @@ class FaqFieldAnchorListFormatter extends FormatterBase {
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $default_format = $this->getFieldSetting('default_format');
+    $settings = $this->getSettings();
     $element_items = [];
     foreach ($items as $item) {
       // Decide whether to use the default format or the custom one.
@@ -82,7 +98,8 @@ class FaqFieldAnchorListFormatter extends FormatterBase {
       $elements[0] = [
         '#theme' => 'faqfield_anchor_list_formatter',
         '#items' => $element_items,
-        '#list_type' => $this->getSetting('anchor_list_type'),
+        '#list_type' => $settings['anchor_list_type'],
+        '#question_tag' => $settings['question_tag'],
       ];
     }
 

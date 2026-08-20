@@ -29,7 +29,7 @@ class WebformElementAddressTest extends WebformElementBrowserTestBase {
   /**
    * Tests address element.
    */
-  public function testAddress() {
+  public function testAddress(): void {
     $this->drupalLogin($this->rootUser);
 
     $assert_session = $this->assertSession();
@@ -50,6 +50,24 @@ class WebformElementAddressTest extends WebformElementBrowserTestBase {
     $assert_session->responseContains('<fieldset data-drupal-selector="edit-address-advanced" aria-describedby="edit-address-advanced--wrapper--description" id="edit-address-advanced--wrapper" class="address--wrapper fieldgroup form-composite webform-composite-visible-title webform-element-help-container--title webform-element-help-container--title-after js-webform-type-address webform-type-address js-form-item form-item js-form-wrapper form-wrapper">');
     $assert_session->responseContains('<span class="fieldset-legend">address_advanced<span class="webform-element-help js-webform-element-help" role="tooltip" tabindex="0" aria-label="address_advanced" data-webform-help="&lt;div class=&quot;webform-element-help--title&quot;&gt;address_advanced&lt;/div&gt;&lt;div class=&quot;webform-element-help--content&quot;&gt;This is help text&lt;/div&gt;"><span aria-hidden="true">?</span></span>');
     $assert_session->responseContains('<div class="description"><div id="edit-address-advanced--wrapper--description" data-drupal-field-elements="description" class="webform-element-description">This is a description</div>');
+
+    /* ********************************************************************** */
+    // Validation.
+    /* ********************************************************************** */
+
+    // Check single address validation.
+    $edit = [
+      'address[postal_code]' => 'not-valid',
+    ];
+    $this->postSubmission($webform, $edit);
+    $assert_session->responseContains('Zip code field is not in the right format.');
+
+    // Check multiple addresses validation.
+    $edit = [
+      'address_multiple[items][0][_item_][postal_code]' => 'not-valid',
+    ];
+    $this->postSubmission($webform, $edit);
+    $assert_session->responseContains('Zip code field is not in the right format.');
 
     /* ********************************************************************** */
     // Processing.

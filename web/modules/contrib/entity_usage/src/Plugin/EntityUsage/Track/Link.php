@@ -2,20 +2,22 @@
 
 namespace Drupal\entity_usage\Plugin\EntityUsage\Track;
 
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity_usage\Attribute\EntityUsageTrack;
 use Drupal\entity_usage\EntityUsageTrackBase;
 
 /**
  * Tracks usage of entities related in Link fields.
- *
- * @EntityUsageTrack(
- *   id = "link",
- *   label = @Translation("Link Fields"),
- *   description = @Translation("Tracks relationships created with 'Link' fields."),
- *   field_types = {"link", "link_tree"},
- *   source_entity_class = "Drupal\Core\Entity\FieldableEntityInterface",
- * )
  */
+#[EntityUsageTrack(
+  id: 'link',
+  label: new TranslatableMarkup('Link Fields'),
+  description: new TranslatableMarkup("Tracks relationships created with 'Link' fields."),
+  field_types: ["link", "link_tree"],
+  source_entity_class: FieldableEntityInterface::class,
+)]
 class Link extends EntityUsageTrackBase {
 
   /**
@@ -29,7 +31,12 @@ class Link extends EntityUsageTrackBase {
     }
     else {
       $url = $link->getUrl();
-      $entity_info = $this->urlToEntity->findEntityIdByRoutedUrl($url);
+      if ($url->isRouted()) {
+        $entity_info = $this->urlToEntity->findEntityIdByRoutedUrl($url);
+      }
+      else {
+        $entity_info = $this->urlToEntity->findEntityIdByUrl($url->toString());
+      }
     }
 
     if (empty($entity_info)) {

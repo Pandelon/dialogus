@@ -16,7 +16,7 @@ class WebformCacheTest extends WebformBrowserTestBase {
   /**
    * Test cache.
    */
-  public function testCache() {
+  public function testCache(): void {
     /** @var \Drupal\Core\Entity\EntityFormBuilder $entity_form_builder */
     $entity_form_builder = \Drupal::service('entity.form_builder');
 
@@ -93,7 +93,7 @@ class WebformCacheTest extends WebformBrowserTestBase {
     $webform
       ->setElementProperties('email', $element)
       ->save();
-
+    $webform_submission = WebformSubmission::create(['webform_id' => 'contact']);
     $form = $entity_form_builder->getForm($webform_submission, 'add');
 
     // Check that the 'email' element does have '#cache' property because the

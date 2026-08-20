@@ -2,6 +2,7 @@
 
 namespace Drupal\eu_cookie_compliance\Service;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -43,12 +44,22 @@ class ScriptFileManager {
    */
   protected string $generatedScript;
 
-  public function __construct(FileSystemInterface $fileSystem, MessengerInterface $messenger) {
-    $this->fileSystem = $fileSystem;
+  /**
+   * @var \Drupal\eu_cookie_compliance\Service\DisabledJavascriptManager
+   */
+  protected DisabledJavascriptManager $disabledJavascriptManger;
+
+  public function __construct(
+    FileSystemInterface $file_system,
+    MessengerInterface $messenger,
+    DisabledJavascriptManager $disabled_javascript_manager
+  ) {
+    $this->fileSystem = $file_system;
     $this->messenger = $messenger;
     /* Set this by default, they can over-write it later if needed */
     $this->directory = "public://eu_cookie_compliance";
     $this->fileName = "eu_cookie_compliance.script.js";
+    $this->disabledJavascriptManger = $disabled_javascript_manager;
   }
 
   public function setDirectory($directory): void {
@@ -73,68 +84,83 @@ class ScriptFileManager {
    * @param string $disabled_javascripts
    *   A non-empty, URL-encoded string of JavaScript file references
    *
+   * @return self
+   *   $this for method chaining.
    */
-  public function buildDisabledJsScript(string $disabled_javascripts): static {
+  public function buildDisabledJsScript(string $disabled_javascripts) {
     $load_disabled_scripts = [];
 
-    $disabled_javascripts = _eu_cookie_compliance_explode_multiple_lines($disabled_javascripts);
-    $disabled_javascripts = array_filter($disabled_javascripts, 'strlen');
+    $disabled_items = $this->disabledJavascriptManger->parse($disabled_javascripts);
 
-    foreach ($disabled_javascripts as $script) {
-      $parts = explode('%3A', $script);
-      $category = NULL;
-      if (count($parts) > 1) {
-        $category = array_shift($parts);
-        $script = implode(':', $parts);
+    foreach ($disabled_items['disabled_js'] as $disabled_javascript) {
+      $category = $disabled_javascript['category'];
+      $attach_name = $disabled_javascript['attach_name'];
+      $library_name = $disabled_javascript['library_name'];
+
+      $scripts_to_load = [$disabled_javascript['script']];
+      if ($library_name) {
+        // Load the library dependencies.
+        $library_scripts = $this->disabledJavascriptManger->collect_js(['library' => [$library_name]]);
+        $scripts_to_load = array_merge($scripts_to_load, $library_scripts);
+        $scripts_to_load = array_unique($scripts_to_load);
       }
 
-      // Split the string if a | is present.
-      // The second parameter (after the |) will be used to trigger a script
-      // attach.
-      $attach_name = '';
-      if (strpos($script, '%7C') !== FALSE) {
-        // Swallow a notice in case there are no behavior or library names.
-        @list($script, $attach_name) = explode('%7C', $script);
+      foreach ($scripts_to_load as $script) {
+        if (empty($script)) {
+          continue;
+        }
+        if (!UrlHelper::isExternal($script)) {
+          $script = '/' . $script;
+        }
+
+        $load_disabled_script = [
+          'src' => $script,
+        ];
+        if ($category !== NULL) {
+          $load_disabled_script['categoryName'] = $category;
+        }
+        if (!empty($attach_name)) {
+          $load_disabled_script['attachName'] = $attach_name;
+        }
+
+        $load_disabled_scripts[$script] = $load_disabled_script;
       }
-
-      _eu_cookie_compliance_convert_relative_uri($script);
-      // Remove URL decoding from the strings, as url encoding makes the urls
-      // not load when the javascript executes.
-      $script = urldecode(urldecode($script));
-
-      if (strpos($script, 'http') !== 0 && strpos($script, '//') !== 0) {
-        $script = '/' . $script;
-      }
-
-      $load_disabled_scripts[] = [
-        'src' => $script, 'loadByBehavior' => !empty($attach_name),
-        'attachName' => !empty($attach_name) ? $attach_name : null,
-      ];
     }
 
-    $disabled_json_list = json_encode($load_disabled_scripts,JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    $disabled_json_list = json_encode(array_values($load_disabled_scripts),JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
     $this->generatedScript = <<<JS
-      window.euCookieComplianceLoadScripts = function(category) {
-        const unverifiedScripts = drupalSettings.eu_cookie_compliance.unverified_scripts;
-        const scriptList = {$disabled_json_list};
-
-        scriptList.forEach(({src, loadByBehavior, attachName}) => {
-          if (!unverifiedScripts.includes(src)) {
-            const tag = document.createElement("script");
-            tag.src = decodeURI(src);
-            if (loadByBehavior && attachName) {
-              const intervalId = setInterval(() => {
-                if (Drupal.behaviors[attachName]) {
-                  Drupal.behaviors[attachName].attach(document, drupalSettings);
-                  clearInterval(intervalId);
-                }
-              }, 100);
-            }
-            document.body.appendChild(tag);
+    function createSnippet(scriptToLoad) {
+      const {src, attachName} = scriptToLoad;
+      const tag = document.createElement('script');
+      tag.src = decodeURI(src);
+      if (attachName) {
+        const intervalId = setInterval(() => {
+          if (Drupal.behaviors[attachName]) {
+            Drupal.behaviors[attachName].attach(document, drupalSettings);
+            clearInterval(intervalId);
           }
-        });
+        }, 100);
       }
+      document.body.appendChild(tag);
+    }
+    window.euCookieComplianceLoadScripts = function(category) {
+      const unverifiedScripts = drupalSettings.eu_cookie_compliance.unverified_scripts;
+      const scriptList = {$disabled_json_list};
+
+      scriptList.forEach(scriptToLoad => {
+        const {src, categoryName} = scriptToLoad;
+        if (!unverifiedScripts.includes(src)) {
+          if (!category && !categoryName) {
+            // Load scripts without any categories specified.
+            createSnippet(scriptToLoad);
+          } else if (categoryName === category) {
+            // Load scripts for the specific category.
+            createSnippet(scriptToLoad);
+          }
+        }
+      });
+    }
     JS;
 
     return $this;
@@ -151,13 +177,10 @@ class ScriptFileManager {
     }
 
     if (is_writable($this->directory)) {
-      /* TODO: Remove this as we do not support less than Drupal 9 */
-      if ((float) \Drupal::VERSION < 9.3) {
-        file_save_data($this->generatedScript, $this->absolutePath(), FileSystemInterface::EXISTS_REPLACE);
+      if ((float) \Drupal::VERSION < 10.3) {
+        $this->fileSystem->saveData($this->generatedScript, $this->absolutePath(), FileSystemInterface::EXISTS_REPLACE);
       } else {
         $this->fileSystem->saveData($this->generatedScript, $this->absolutePath(), FileExists::Replace);
-        \Drupal::service('file.repository')
-          ->writeData($this->generatedScript, $this->absolutePath(), FileSystemInterface::EXISTS_REPLACE);
       }
     } else {
       $this->messenger->addError($this->t('Could not generate the EU Cookie Compliance JavaScript file that would be used for handling disabled JavaScripts. There may be a problem with your files folder.'));

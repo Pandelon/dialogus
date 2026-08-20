@@ -60,7 +60,7 @@ class FaqFieldDefaultWidget extends WidgetBase {
       $element['question']['#type'] = 'textarea';
       $element['question']['#rows'] = $question_rows;
     }
-    // Add textarea / formatable textarea / textfield for answer.
+    // Add textarea / formattable textarea / textfield for answer.
     $element['answer'] = [
       '#title' => Html::escape($this->getSetting('answer_title')),
       '#type' => $this->getSetting('answer_widget'),
@@ -91,11 +91,11 @@ class FaqFieldDefaultWidget extends WidgetBase {
       '#default_value' => $this->getSetting('answer_widget'),
       '#options' => [
         'textarea' => $this->t('Textarea'),
-        'text_format' => $this->t('Formatable textarea'),
+        'text_format' => $this->t('Formattable textarea'),
         'textfield' => $this->t('Textfield'),
       ],
       '#required' => TRUE,
-      '#description' => $this->t('What form widget to use for answer input. Formatable textarea is needed for WYSIWYG editors.'),
+      '#description' => $this->t('What form widget to use for answer input. Formattable textarea is needed for WYSIWYG editors.'),
     ];
     // Input for custom title of questions.
     $elements['question_title'] = [
@@ -187,7 +187,7 @@ class FaqFieldDefaultWidget extends WidgetBase {
       '#required' => TRUE,
       '#states' => [
         'invisible' => [
-          ':input[id="edit-fields-field-faq-settings-edit-form-settings-answer-widget"]' => ['value' => 'textfield'],
+          ':input[name="fields[' . $this->fieldDefinition->getName() . '][settings_edit_form][settings][answer_widget]"]' => ['value' => 'textfield'],
         ],
       ],
       '#min' => 1,
@@ -205,7 +205,7 @@ class FaqFieldDefaultWidget extends WidgetBase {
     // Answer widget setting.
     $answer_widget_options = [
       'textarea' => $this->t('Textarea'),
-      'text_format' => $this->t('Formatable textarea'),
+      'text_format' => $this->t('Formattable textarea'),
       'textfield' => $this->t('Textfield'),
     ];
     $answer_widget = $this->getSetting('answer_widget');

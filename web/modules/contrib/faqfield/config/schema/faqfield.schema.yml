@@ -5,6 +5,9 @@ field.formatter.settings.faqfield_accordion:
   type: mapping
   label: 'FAQ Field jQuery Accordion format settings'
   mapping:
+    question_tag:
+      type: string
+      label: 'An HTML tag that wraps the question.'
     active:
       type: integer
       label: 'Index of active element starting from 0. Leave empty to display none at start.'
@@ -36,6 +39,18 @@ field.formatter.settings.faqfield_anchor_list:
     anchor_list_type:
       type: string
       label: 'The type of HTML list used for the anchor link list.'
+    question_tag:
+      type: string
+      label: 'An HTML tag that wraps the question.'
+
+# FieldFormatter: Simple text
+field.formatter.settings.faqfield_simple_text:
+  type: mapping
+  label: 'FAQ Field Simple text format settings'
+  mapping:
+    question_tag:
+      type: string
+      label: 'An HTML tag that wraps the question.'
 
 # FieldWidget: Default widget.
 field.widget.settings.faqfield_default:
