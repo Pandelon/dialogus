@@ -41,6 +41,7 @@
         "drupal/paragraphs": "^1.12",
         "drupal/pathauto": "^1.8",
         "drupal/recaptcha": "^3.0",
+        "drupal/shield": "^1.8",
         "drupal/simplei": "^3.0",
         "drupal/sitemap": "^2.6",
         "drupal/token": "^1.5",
