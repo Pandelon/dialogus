@@ -5,586 +5,340 @@
  * Install, update and uninstall functions for the group module.
  */
 
-use Drupal\Core\Config\ExtensionInstallStorage;
-use Drupal\Core\Config\InstallStorage;
-use Drupal\Core\Entity\EntityTypeListenerInterface;
-use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
+use Drupal\Core\Config\Entity\Query\QueryFactory;
+use Drupal\Core\Entity\EntityLastInstalledSchemaRepositoryInterface;
+use Drupal\Core\Entity\Sql\DefaultTableMapping;
 use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\group\Entity\GroupContent;
-use Drupal\group\Entity\Storage\GroupContentStorageSchema;
+use Drupal\field\FieldStorageConfigInterface;
 
 /**
- * Resave all GroupContent labels and remove orphaned entities.
+ * Implements hook_update_last_removed().
  */
-function group_update_8001(&$sandbox) {
-  // Set up the batch by retrieving all of the group content IDs.
-  if (!isset($sandbox['progress'])) {
-    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
-    $entity_type_manager = \Drupal::service('entity_type.manager');
-    $storage_handler = $entity_type_manager->getStorage('group_content');
+function group_update_last_removed() {
+  return 9210;
+}
 
-    $sandbox['ids'] = $storage_handler->getQuery()->accessCheck(FALSE)->execute();
-    $sandbox['max'] = count($sandbox['ids']);
-    $sandbox['progress'] = 0;
+/**
+ * Updates database and fields from Group 2 to Group 3.
+ */
+function group_update_10300(&$sandbox) {
+  $state = \Drupal::state();
+  $config_factory = \Drupal::configFactory();
+  $group_content_type_configs = $config_factory->listAll('group.content_type.');
+
+  // Short-circuit the following updates if we are already on version 3.
+  if (empty($group_content_type_configs)) {
+    $state->set('group_update_10300_detected_legacy_version', FALSE);
+    return t('Module was already on v3, skipping upgrade path.');
   }
+  $state->set('group_update_10300_detected_legacy_version', TRUE);
 
-  // Try to update 25 GroupContent entities at a time.
-  $ids = array_slice($sandbox['ids'], $sandbox['progress'], 25);
+  $table_mapping = \Drupal::entityTypeManager()->getStorage('group_relationship')->getTableMapping();
+  assert($table_mapping instanceof DefaultTableMapping);
 
-  /** @var \Drupal\group\Entity\GroupContentInterface $group_content */
-  foreach (GroupContent::loadMultiple($ids) as $group_content) {
-    // Re-saving the GroupContent entities will properly set their label.
-    if ($group_content->getEntity()) {
-      $group_content->save();
+  $last_installed_schema_repository = \Drupal::service('entity.last_installed_schema.repository');
+  assert($last_installed_schema_repository instanceof EntityLastInstalledSchemaRepositoryInterface);
+
+  $installed_storage_schema = \Drupal::keyValue('entity.storage_schema.sql');
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+
+  // Update field storages and DB tables that were created for group_content.
+  $field_storage_definitions = $last_installed_schema_repository->getLastInstalledFieldStorageDefinitions('group_content');
+  foreach ($field_storage_definitions as $fsd) {
+    if ($fsd instanceof BaseFieldDefinition) {
+      $fsd->setTargetEntityTypeId('group_relationship');
+      $schema = $installed_storage_schema->get('group_content.field_schema_data.' . $fsd->getName());
+      $installed_storage_schema->set('group_relationship.field_schema_data.' . $fsd->getName(), $schema);
     }
-    // In early versions we did not delete GroupContent entities along with the
-    // entity they represent. Let's clean those up to avoid crashes for people
-    // who still have those floating around.
+    elseif ($fsd instanceof FieldStorageConfigInterface) {
+      if ($requires_storage = $table_mapping->requiresDedicatedTableStorage($fsd)) {
+        $old_table = $table_mapping->getDedicatedDataTableName($fsd);
+      }
+
+      $old_id = $fsd->id();
+      $new_id = str_replace('group_content.', 'group_relationship.', $fsd->id());
+
+      $old_config = $config_factory->getEditable('field.storage.' . $old_id);
+      $new_config = $config_factory->getEditable('field.storage.' . $new_id);
+      $new_config->setData($old_config->getRawData());
+      $new_config->set('entity_type', 'group_relationship');
+      $new_config->set('id', $new_id);
+      $new_config->save(TRUE);
+      $old_config->delete();
+
+      $fsd->set('entity_type', 'group_relationship');
+      $fsd->set('id', $new_id);
+
+      if ($requires_storage) {
+        $new_table = $table_mapping->getDedicatedDataTableName($fsd);
+        \Drupal::database()->schema()->renameTable($old_table, $new_table);
+      }
+    }
     else {
-      $group_content->delete();
+      throw new \Exception('Found a group_content field we could not move to group_relationship.');
     }
 
-    $sandbox['progress']++;
+    $last_installed_schema_repository->setLastInstalledFieldStorageDefinition($fsd);
   }
 
-  // Try to update the percentage but avoid division by zero.
-  $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
+  // Update entity references that were pointing to group_content.
+  foreach ($last_installed_schema_repository->getLastInstalledDefinitions() as $entity_type) {
+    $field_storage_definitions = $last_installed_schema_repository->getLastInstalledFieldStorageDefinitions($entity_type->id());
+    foreach ($field_storage_definitions as $fsd) {
+      if ($fsd->getType() !== 'entity_reference') {
+        continue;
+      }
+      if ($fsd->getSetting('target_type') !== 'group_content') {
+        continue;
+      }
+      if ($fsd instanceof BaseFieldDefinition) {
+        // @todo Throw a warning saying a base or bundle field has changed and needs updating in code.
+      }
+      elseif ($fsd instanceof FieldStorageConfigInterface) {
+        $config = $config_factory->getEditable('field.storage.' . $fsd->id());
+        $settings = $config->get('settings');
+        $settings['target_type'] = 'group_relationship';
+        $config->set('settings', $settings);
+        $config->save(TRUE);
+      }
+      else {
+        throw new \Exception('Found an entity_reference field storage definition we could not alter the settings for.');
+      }
 
-  // Show a status update for the current progress.
-  return t("Updated the label for @progress out of @max group content entities.", ['@progress' => $sandbox['progress'], '@max' => $sandbox['max']]);
+      $fsd->setSetting('target_type', 'group_relationship');
+      $last_installed_schema_repository->setLastInstalledFieldStorageDefinition($fsd);
+    }
+  }
+
+  // Update all group_content_type entities to become group_relationship_type.
+  foreach ($group_content_type_configs as $old_id) {
+    $new_id = str_replace('group.content_type.', 'group.relationship_type.', $old_id);
+
+    $old_config = $config_factory->getEditable($old_id);
+    $new_config = $config_factory->getEditable($new_id);
+    $new_config->setData($old_config->getRawData());
+    $new_config->save(TRUE);
+    $old_config->delete();
+  }
+
+  // Delete the old config key store for QueryFactory.
+  \Drupal::keyValue(QueryFactory::CONFIG_LOOKUP_PREFIX . 'group_content_type')->deleteAll();
+
+  // Update field instances on group_content entities.
+  foreach ($config_factory->listAll('field.field.group_content.') as $old_name) {
+    $old_config = $config_factory->getEditable($old_name);
+
+    $new_name = str_replace('group_content.', 'group_relationship.', $old_name);
+    $new_id = str_replace('group_content.', 'group_relationship.', $old_config->get('id'));
+
+    $new_config = $config_factory->getEditable($new_name);
+    $new_config->setData($old_config->getRawData());
+    $new_config->set('entity_type', 'group_relationship');
+    $new_config->set('id', $new_id);
+
+    if ($dependencies = $new_config->get('dependencies')) {
+      if (!empty($dependencies['config'])) {
+        $dependencies['config'] = array_map(function ($dependency_name) {
+          $search = [
+            'group.content_type.',
+            'field.storage.group_content.',
+          ];
+          $replace = [
+            'group.relationship_type.',
+            'field.storage.group_relationship.',
+          ];
+          return str_replace($search, $replace, $dependency_name);
+        }, $dependencies['config']);
+        $new_config->set('dependencies', $dependencies);
+      }
+    }
+
+    $new_config->save(TRUE);
+    $old_config->delete();
+  }
+
+  // The bundle field map is only updated when using the update manager.
+  // See \Drupal\Core\Entity\EntityFieldManager::getFieldMap() for more info on
+  // how the key value collection is used for this purpose.
+  $bundle_field_map_store = \Drupal::keyValue('entity.definitions.bundle_field_map');
+  $bundle_field_map = $bundle_field_map_store->get('group_content');
+  $bundle_field_map_store->set('group_relationship', $bundle_field_map);
+  $bundle_field_map_store->delete('group_content');
+
+  // Update form and view modes for changed instances.
+  foreach (['entity_form_display', 'entity_view_display'] as $display_key) {
+    foreach ($config_factory->listAll("core.$display_key.group_content.") as $old_name) {
+      $old_config = $config_factory->getEditable($old_name);
+
+      $new_name = str_replace('group_content.', 'group_relationship.', $old_name);
+      $new_id = str_replace('group_content.', 'group_relationship.', $old_config->get('id'));
+
+      $new_config = $config_factory->getEditable($new_name);
+      $new_config->setData($old_config->getRawData());
+      $new_config->set('targetEntityType', 'group_relationship');
+      $new_config->set('id', $new_id);
+
+      if ($dependencies = $new_config->get('dependencies')) {
+        if (!empty($dependencies['config'])) {
+          $dependencies['config'] = array_map(function ($dependency_name) {
+            $search = [
+              'group.content_type.',
+              'field.storage.group_content.',
+              'field.field.group_content.',
+            ];
+            $replace = [
+              'group.relationship_type.',
+              'field.storage.group_relationship.',
+              'field.field.group_relationship.',
+            ];
+            return str_replace($search, $replace, $dependency_name);
+          }, $dependencies['config']);
+          $new_config->set('dependencies', $dependencies);
+        }
+      }
+
+      $new_config->save(TRUE);
+      $old_config->delete();
+    }
+  }
+
+  // Update the entity type definitions directly so the DB is left untouched.
+  $definition = $last_installed_schema_repository->getLastInstalledDefinition('group_content_type');
+  $definition->set('id', 'group_relationship_type');
+  $definition->set('config_prefix', 'relationship_type');
+  $definition->set('bundle_of', 'group_content');
+  $last_installed_schema_repository->setLastInstalledDefinition($definition);
+  $definition_update_manager->updateEntityType($definition);
+
+  $definition = $last_installed_schema_repository->getLastInstalledDefinition('group_content');
+  $definition->set('id', 'group_relationship');
+  $definition->set('bundle_entity_type', 'group_relationship_type');
+  $definition->set('field_ui_base_route', 'entity.group_relationship_type.edit_form');
+  $last_installed_schema_repository->setLastInstalledDefinition($definition);
+  $definition_update_manager->updateEntityType($definition);
+
+  $last_installed_schema_repository->deleteLastInstalledDefinition('group_content');
+  $last_installed_schema_repository->deleteLastInstalledDefinition('group_content_type');
 }
 
 /**
- * Properly make Group and GroupContent translatable.
+ * Updates indexes from Group 2 to Group 3.
  */
-function group_update_8002() {
-  $container = \Drupal::getContainer();
-
-  /** @var \Drupal\Core\Database\Connection $database */
-  $database = $container->get('database');
-
-  /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager */
-  $entity_manager = $container->get('entity_type.manager');
-
-  /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager */
-  $field_manager = $container->get('entity_field.manager');
-
-  /** @var \Drupal\Core\Entity\EntityLastInstalledSchemaRepositoryInterface $schema_repository */
-  $schema_repository = $container->get('entity.last_installed_schema.repository');
-
-  // Before we start, we need to rebuild the entity type caches so we have the
-  // latest definitions in code available to us.
-  $entity_manager->clearCachedDefinitions();
-
-  foreach (['group', 'group_content'] as $entity_type_id) {
-    // Retrieve the storage handler class name for this entity type.
-    $storage_handler = $entity_manager->getHandler($entity_type_id, 'storage');
-
-    // Get the old entity type's field definitions from the key/value storage.
-    $old_field_def = $schema_repository->getLastInstalledFieldStorageDefinitions($entity_type_id);
-
-    // Get the old entity type definition from the key/value storage.
-    $old_entity_type = $schema_repository->getLastInstalledDefinition($entity_type_id);
-
-    // Get the new entity type definition from code.
-    $new_entity_type = $entity_manager->getDefinition($entity_type_id);
-
-    // Instantiate a storage handler for both entity type definitions. Please
-    // note we're cloning the old entity type definition because we are altering
-    // it further down this update function and don't want those changes to be
-    // reflected in the storage handler.
-    $old_storage = $entity_manager->createHandlerInstance($storage_handler, clone $old_entity_type);
-    $new_storage = $entity_manager->createHandlerInstance($storage_handler, $new_entity_type);
-
-    // We can't update the definition if the storage handler doesn't have the
-    // onEntityTypeCreate() method available to it.
-    if (!($new_storage instanceof EntityTypeListenerInterface)) {
-      // This should probably throw an exception, but we're in alpha.
-      return;
-    }
-
-    // We check for the SqlContentEntityStorage interface to make sure we do
-    // not run queries against a non-SQL backend. Seeing as our content entity
-    // types did not specify a storage backend, Drupal defaulted to SQL so all
-    // sites should be using that unless they swapped out the storage.
-    if (!($new_storage instanceof SqlContentEntityStorage && $old_storage instanceof SqlContentEntityStorage)) {
-      // This should probably throw an exception, but we're in alpha.
-      return;
-    }
-
-    // Get the table names for our data migration.
-    $base_table = $new_entity_type->getBaseTable();
-    $data_table = $base_table . '_field_data';
-    $temp_table = $base_table . '_data_to_migrate';
-
-    // First rename the base table to a temporary table.
-    $database->schema()->renameTable($base_table, $temp_table);
-
-    // Then recreate the base table and data table. This will also add the
-    // 'default_langcode' base field because we flagged our content entity types
-    // as translatable.
-    $new_storage->onEntityTypeCreate($new_entity_type);
-
-    // At this point the database structure should match what is defined in
-    // code. However, Drupal still thinks we are running the old definitions
-    // because it cached them in the key/value storage.
-    //
-    // We therefore need to adjust the old definition instead of just writing
-    // the new one to the key/value storage. By doing so, we ensure that other
-    // modules' changes to the definition are kept as well.
-    //
-    // Inform Drupal of the fact that our content entities are now translatable
-    // and have a data table.
-    $old_entity_type->set('translatable', TRUE);
-    $old_entity_type->set('data_table', $base_table . '_field_data');
-
-    // We had an additional property 'fieldable' which is now gone.
-    $additional = $old_entity_type->get('additional');
-    unset($additional['fieldable']);
-    $old_entity_type->set('additional', $additional);
-
-    // Now that we have added only our changes, we write the adjusted old entity
-    // type to the key/value storage as the new entity type.
-    $schema_repository->setLastInstalledDefinition($old_entity_type);
-
-    // As mentioned above, Drupal added a new 'default_langcode' field which we
-    // didn't have before. It's therefore safe to load the field's definition
-    // from code and write it to the key/value storage.
-    $field_definitions = $field_manager->getFieldStorageDefinitions($entity_type_id);
-    $schema_repository->setLastInstalledFieldStorageDefinition($field_definitions['default_langcode']);
-
-    // Now we just need to migrate the old data into the new table structure. We
-    // read the column names from both the old and new tables and select data
-    // from the old one into the new ones.
-    $temp_cols = $old_storage->getTableMapping($old_field_def)->getAllColumns($base_table);
-    $base_cols = $new_storage->getTableMapping()->getAllColumns($base_table);
-    $data_cols = $new_storage->getTableMapping()->getAllColumns($data_table);
-
-    // Get the columns the base and data table share with the old base table.
-    $base_shared = array_intersect($base_cols, $temp_cols);
-    $data_shared = array_intersect($data_cols, $temp_cols);
-
-    // Build subqueries for inserting old data into the new tables.
-    $base_query = $database->select($temp_table, 't')->fields('t', $base_shared);
-    $data_query = $database->select($temp_table, 't')->fields('t', $data_shared);
-
-    // We add a default value of 1 to the 'default_langcode' field.
-    $data_query->addExpression('1', 'default_langcode');
-
-    // Now we select all of the old data into the new tables.
-    $database->insert($base_table)->from($base_query)->execute();
-    $database->insert($data_table)->from($data_query)->execute();
+function group_update_10301(&$sandbox) {
+  // Short-circuit the update if we are already on version 3.
+  if (!\Drupal::state()->get('group_update_10300_detected_legacy_version', FALSE)) {
+    return t('Module was already on v3, skipping upgrade path.');
   }
+
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $last_installed_schema_repository = \Drupal::service('entity.last_installed_schema.repository');
+  assert($last_installed_schema_repository instanceof EntityLastInstalledSchemaRepositoryInterface);
+
+  $field_storage_definitions = $last_installed_schema_repository->getLastInstalledFieldStorageDefinitions('group_relationship');
+  $entity_type = $last_installed_schema_repository->getLastInstalledDefinition('group_relationship');
+  $definition_update_manager->updateFieldableEntityType($entity_type, $field_storage_definitions, $sandbox);
 }
 
 /**
- * Update all group role entities to use the new audience property.
+ * Updates views from Group 2 to Group 3.
  */
-function group_update_8003() {
+function group_update_10302(&$sandbox) {
+  // Short-circuit the update if we are already on version 3.
+  if (!\Drupal::state()->get('group_update_10300_detected_legacy_version', FALSE)) {
+    return t('Module was already on v3, skipping upgrade path.');
+  }
+
   $config_factory = \Drupal::configFactory();
 
-  foreach ($config_factory->listAll('group.role.') as $group_role_config_name) {
-    $group_role = $config_factory->getEditable($group_role_config_name);
-
-    // Figure out what audience the role is for based on role ID.
-    list(, $group_role_id) = explode('-', $group_role->get('id'), 2);
-    switch ($group_role_id) {
-      case 'anonymous':
-        $audience = 'anonymous';
-        break;
-
-      case 'outsider':
-        $audience = 'outsider';
-        break;
-
-      default:
-        $audience = 'member';
+  if (\Drupal::moduleHandler()->moduleExists('views')) {
+    foreach ($config_factory->listAll('views.view.') as $view_name) {
+      $view = $config_factory->getEditable($view_name);
+      $view->setData(_group_update_view_with_a_bazooka($view->getRawData()))->save(TRUE);
+      $view->save(TRUE);
     }
-
-    $group_role->set('audience', $audience);
-    $group_role->save(TRUE);
   }
 }
 
 /**
- * Update all group role entities to use the new permissions_ui property.
+ * Replaces ALL mention of group_content in a Views view's data.
+ *
+ * This is a radical approach in that it makes no assumptions other than any
+ * mention of group_content on Group v3 or up being wrong and needing
+ * replacement with group_relationship. Which explains the function name.
+ *
+ * @param array $data
+ *   The view data to fire the bazooka at.
+ *
+ * @return array
+ *   The data with all replacements made.
  */
-function group_update_8004() {
-  $config_factory = \Drupal::configFactory();
+function _group_update_view_with_a_bazooka(array $data): array {
+  $search = ['group_content_plugins', 'group.content_type.', 'group_content'];
+  $replace = ['group_relation_plugins', 'group.relationship_type.', 'group_relationship'];
 
-  foreach ($config_factory->listAll('group.role.') as $group_role_config_name) {
-    $group_role = $config_factory->getEditable($group_role_config_name);
-    $group_role->set('permissions_ui', TRUE);
-    $group_role->save(TRUE);
-  }
-}
+  // As we loop over every item in the array, we fill a new one so that order
+  // of keys is preserved even if we change the key name.
+  $new_data = [];
 
-/**
- * Update all group types to fix some potentially broken plugin config.
- */
-function group_update_8005() {
-  $config_factory = \Drupal::configFactory();
+  foreach ($data as $key => $value) {
+    $new_key = str_replace($search, $replace, $key);
 
-  foreach ($config_factory->listAll('group.type.') as $group_type_config_name) {
-    $group_type = $config_factory->getEditable($group_type_config_name);
-    list(, , $group_type_id) = explode('.', $group_type_config_name);
-
-    // Make sure the group type ID is set in the plugin config.
-    $plugins = $group_type->get('content');
-    foreach ($plugins as $plugin_id => $config) {
-      $group_type->set("content.$plugin_id.group_type", $group_type_id);
+    if (is_string($value)) {
+      $new_data[$new_key] = str_replace($search, $replace, $value);
     }
-
-    $group_type->save(TRUE);
-  }
-}
-
-/**
- * Move all plugin config from group types to group content types.
- */
-function group_update_8006() {
-  $config_factory = \Drupal::configFactory();
-  $plugin_config = [];
-
-  // Get the configuration from every group type.
-  foreach ($config_factory->listAll('group.type.') as $group_type_config_name) {
-    $group_type = $config_factory->getEditable($group_type_config_name);
-    list(, , $group_type_id) = explode('.', $group_type_config_name);
-
-    // Store the group type's plugin configuration in an array.
-    $plugins = $group_type->get('content');
-    foreach ($plugins as $plugin_id => $config) {
-      $plugin_config[$group_type_id][$plugin_id] = $config['data'];
+    elseif (is_array($value)) {
+      $new_data[$new_key] = _group_update_view_with_a_bazooka($value);
     }
-
-    // Remove the plugin config from the group type altogether.
-    $group_type->clear('content');
-    $group_type->save(TRUE);
+    else {
+      $new_data[$new_key] = $value;
+    }
   }
 
-  // Store the configuration on the group content types.
-  foreach ($config_factory->listAll('group.content_type.') as $group_content_type_config_name) {
-    $group_content_type = $config_factory->getEditable($group_content_type_config_name);
-    $group_type_id = $group_content_type->get('group_type');
-    $plugin_id = $group_content_type->get('content_plugin');
-    $group_content_type->set('plugin_config', $plugin_config[$group_type_id][$plugin_id]);
-    $group_content_type->save(TRUE);
-  }
+  return $new_data;
 }
 
 /**
- * Update the members view to use the argument provided title.
+ * Updates views to drop obsolete key.
  */
-function group_update_8007() {
+function group_update_10303(&$sandbox) {
   if (\Drupal::moduleHandler()->moduleExists('views')) {
     $view = \Drupal::configFactory()->getEditable('views.view.group_members');
     if (!$view->isNew()) {
-      $view->set('display.default.display_options.arguments.gid.title_enable', TRUE);
-      $view->set('display.default.display_options.arguments.gid.title', '{{ arguments.gid|placeholder }} members');
+      $view->clear('display.default.display_options.arguments.gid.default_argument_skip_url');
       $view->save(TRUE);
     }
   }
 }
 
 /**
- * Make sure the views.view.group_members exists and fix broken copies.
+ * Make state key for tracking if we came from version 2 clearly defined.
  */
-function group_update_8008() {
-  $message = NULL;
+function group_update_10304(&$sandbox) {
+  $state = \Drupal::state();
 
-  $name = 'views.view.group_members';
-  $view = \Drupal::configFactory()->getEditable($name);
-
-  // Only update or insert the view if the Views module is enabled.
-  if (\Drupal::moduleHandler()->moduleExists('views')) {
-    $save_from_yaml = FALSE;
-
-    // If the view does not exist yet, we create it.
-    if ($view->isNew()) {
-      $save_from_yaml = TRUE;
-      $message = 'The view did not exist yet and has therefore been created.';
-    }
-    // We did not properly add the view in previous update functions, but did
-    // add keys to it, assuming the view existed. We should be able to find the
-    // broken views by checking for the absence of an ID.
-    elseif (!$view->get('id')) {
-      $save_from_yaml = TRUE;
-      $message = 'The view was broken by previous update hooks and has now been fixed.';
-    }
-
-    // If we flagged the view to be saved from the YAML definition, do so.
-    if ($save_from_yaml) {
-      // Get the storage for optional extension configuration.
-      $optional_storage = new ExtensionInstallStorage(
-        \Drupal::service('config.storage'),
-        InstallStorage::CONFIG_OPTIONAL_DIRECTORY
-      );
-
-      // Read the data from the YAML file and save it to the view.
-      $view->setData($optional_storage->read($name));
-      $view->save(TRUE);
-    }
-    else {
-      $message = 'The view was present and working as intended. Did nothing.';
-    }
-  }
-  // Otherwise delete the view if it exists in the storage.
-  elseif (!$view->isNew()) {
-    $view->delete();
-    $message = 'The view had been added even though the Views module is not installed. Removed the view.';
+  // Previous updates ran with new state entry, do nothing.
+  if (!is_null($state->get('group_update_10300_detected_legacy_version'))) {
+    return t('State key was properly set before, skipping update.');
   }
 
-  return $message;
+  // Previous updates ran with old state entry, convert to new state entry.
+  $old_value = (bool) $state->get('group_update_10300_detected_version', FALSE);
+  $state->set('group_update_10300_detected_legacy_version', !$old_value);
+  $state->delete('group_update_10300_detected_version');
 }
 
 /**
- * Add the 'creator_roles' property to all group types.
+ * Upgrade group_relationship type ER field.
  */
-function group_update_8009() {
-  $config_factory = \Drupal::configFactory();
-
-  foreach ($config_factory->listAll('group.type.') as $group_type_config_name) {
-    $group_type = $config_factory->getEditable($group_type_config_name);
-    $group_type->set('creator_roles', []);
-    $group_type->save(TRUE);
+function group_update_10305(&$sandbox) {
+  // Short-circuit the update if we are already on version 3.
+  if (!\Drupal::state()->get('group_update_10300_detected_legacy_version', FALSE)) {
+    return t('Module was already on v3, skipping upgrade path.');
   }
-}
 
-/**
- * Change the path field to computed for group entities.
- */
-function group_update_8010() {
-  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
-  if ($entity_definition_update_manager->getEntityType('group')) {
-    // Computed field definitions are not tracked by the entity definition
-    // update manager, so remove them.
-    $storage_definition = $entity_definition_update_manager->getFieldStorageDefinition('path', 'group');
-    if ($storage_definition) {
-      $entity_definition_update_manager->uninstallFieldStorageDefinition($storage_definition);
-    }
-  }
-}
-
-/**
- * Remove the the 'info_text' config option from all group content types.
- */
-function group_update_8011() {
-  $config_factory = \Drupal::configFactory();
-
-  foreach ($config_factory->listAll('group.content_type.') as $group_content_type_config_name) {
-    $group_content_type = $config_factory->getEditable($group_content_type_config_name);
-    $group_content_type->clear('plugin_config.info_text');
-    $group_content_type->save(TRUE);
-  }
-}
-
-/**
- * Change 'edit' into 'update' in permission names.
- */
-function group_update_8012() {
-  $config_factory = \Drupal::configFactory();
-
-  foreach ($config_factory->listAll('group.role.') as $group_role_config_name) {
-    $group_role = $config_factory->getEditable($group_role_config_name);
-
-    // Replace 'edit any/own' with 'update any/own' in permission names.
-    $search = '%^edit (any|own) (\S+) (\S+)$%';
-    $replace = 'update $1 $2 $3';
-
-    $permissions = $group_role->get('permissions');
-    foreach ($permissions as &$permission) {
-      $permission = preg_replace($search, $replace, $permission);
-    }
-
-    $group_role->set('permissions', $permissions);
-    $group_role->save();
-  }
-}
-
-/**
- * Add the 'creator_membership' property to all group types.
- */
-function group_update_8013() {
-  $config_factory = \Drupal::configFactory();
-
-  foreach ($config_factory->listAll('group.type.') as $group_type_config_name) {
-    $group_type = $config_factory->getEditable($group_type_config_name);
-    $group_type->set('creator_membership', TRUE);
-    $group_type->save(TRUE);
-  }
-}
-
-/**
- * Add the 'creator_wizard' property to all group types.
- */
-function group_update_8014() {
-  $config_factory = \Drupal::configFactory();
-
-  foreach ($config_factory->listAll('group.type.') as $group_type_config_name) {
-    $group_type = $config_factory->getEditable($group_type_config_name);
-    $group_type->set('creator_wizard', TRUE);
-    $group_type->save(TRUE);
-  }
-}
-
-/**
- * Update the group members view to use the new cache group permissions context.
- */
-function group_update_8015() {
-  // Empty update. See group_post_update_view_cache_contexts();
-}
-
-/**
- * Re-run a fixed version of _8015 and gnode_update_8006 on all views.
- */
-function group_update_8016() {
-  // Empty update. See group_post_update_view_cache_contexts();
-}
-
-/**
- * Add storage schema to group content.
- */
-function group_update_8017() {
-  $manager = \Drupal::entityDefinitionUpdateManager();
-
-  // Add the new storage schema to the GroupContent entity type, which should
-  // automatically reindex the table.
-  $entity_type = $manager->getEntityType('group_content');
-  $entity_type->setHandlerClass('storage_schema', GroupContentStorageSchema::class);
-  $manager->updateEntityType($entity_type);
-}
-
-/**
- * Set the 'owner' entity key and update the owner field.
- */
-function group_update_8018() {
   $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
-  foreach (['group', 'group_content'] as $entity_type_id) {
-    $entity_type = $definition_update_manager->getEntityType($entity_type_id);
-    $keys = $entity_type->getKeys();
-    $keys['owner'] = 'uid';
-    $entity_type->set('entity_keys', $keys);
-    $definition_update_manager->updateEntityType($entity_type);
-    $definition_update_manager->updateFieldStorageDefinition($definition_update_manager->getFieldStorageDefinition('uid', $entity_type_id));
-  }
-}
-
-/**
- * Make sure Entity API is installed.
- */
-function group_update_8019() {
-  if (!\Drupal::moduleHandler()->moduleExists('entity')) {
-    \Drupal::service('module_installer')->install(['entity']);
-    return t('The "Entity API" module has been installed.');
-  }
-}
-
-/**
- * Make sure VariationCache is installed.
- */
-function group_update_8020() {
-  if (!\Drupal::moduleHandler()->moduleExists('variationcache')) {
-    \Drupal::service('module_installer')->install(['variationcache']);
-    return t('The "VariationCache" module has been installed.');
-  }
-}
-
-/**
- * Updates base field definitions that use the old default value callback.
- */
-function group_update_8021() {
-  $config_factory = \Drupal::configFactory();
-  foreach ($config_factory->listAll('core.base_field_override.') as $config_name) {
-    $base_field_override = $config_factory->getEditable($config_name);
-
-    if ($base_field_override->get('field_name') !== 'uid') {
-      continue;
-    }
-
-    switch ($base_field_override->get('entity_type')) {
-      case 'group':
-        $class = 'Drupal\group\Entity\Group';
-        break;
-
-      case 'group_content':
-        $class = 'Drupal\group\Entity\GroupContent';
-        break;
-
-      default:
-        continue 2;
-    }
-
-    if ($base_field_override->get('default_value_callback') !== $class . '::getCurrentUserId') {
-      continue;
-    }
-
-    $base_field_override->set('default_value_callback', $class . '::getDefaultEntityOwner');
-    $base_field_override->save(TRUE);
-  }
-}
-
-/**
- * Add the status field to group entity type.
- */
-function group_update_8022() {
-  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
-  $entity_type = $definition_update_manager->getEntityType('group');
-
-  // Bail out early if a field named 'status' is already installed.
-  if ($definition_update_manager->getFieldStorageDefinition('status', 'group')) {
-    return t('The publishing status field has <strong>not</strong> been added to groups.');
-  }
-
-  // Add the 'published' entity key to the group entity type.
-  $entity_keys = $entity_type->getKeys();
-  $entity_keys['published'] = 'status';
-  $entity_type->set('entity_keys', $entity_keys);
-
-  $definition_update_manager->updateEntityType($entity_type);
-
-  // Add the status field.
-  $status = BaseFieldDefinition::create('boolean')
-    ->setLabel(t('Published'))
-    ->setDescription(t('A boolean indicating the published state.'))
-    ->setRevisionable(TRUE)
-    ->setTranslatable(TRUE)
-    ->setDefaultValue(TRUE)
-    ->setDisplayOptions('form', [
-      'type' => 'boolean_checkbox',
-      'settings' => [
-        'display_label' => TRUE,
-      ],
-      'weight' => 120,
-    ])
-    ->setDisplayConfigurable('form', TRUE);
-
-  $has_content_translation_status_field = \Drupal::moduleHandler()->moduleExists('content_translation') && $definition_update_manager->getFieldStorageDefinition('content_translation_status', 'group');
-  if ($has_content_translation_status_field) {
-    $status->setInitialValueFromField('content_translation_status', TRUE);
-  }
-  else {
-    $status->setInitialValue(TRUE);
-  }
-  $definition_update_manager->installFieldStorageDefinition('status', 'group', 'group', $status);
-
-  // Uninstall the 'content_translation_status' field if needed.
-  if ($has_content_translation_status_field) {
-    $content_translation_status = $definition_update_manager->getFieldStorageDefinition('content_translation_status', 'group');
-    $definition_update_manager->uninstallFieldStorageDefinition($content_translation_status);
-  }
-
-  return t('The published field has been added to groups.');
-}
-
-/**
- * Add the 'new_revision' property to all group types.
- */
-function group_update_8023() {
-  $config_factory = \Drupal::configFactory();
-
-  foreach ($config_factory->listAll('group.type.') as $group_type_config_name) {
-    $group_type = $config_factory->getEditable($group_type_config_name);
-    $group_type->set('new_revision', FALSE);
-    $group_type->save(TRUE);
-  }
+  $field_storage_definition = $definition_update_manager->getFieldStorageDefinition('type', 'group_relationship');
+  assert($field_storage_definition instanceof BaseFieldDefinition);
+  $field_storage_definition->setSetting('target_type', 'group_relationship_type');
+  $definition_update_manager->updateFieldStorageDefinition($field_storage_definition);
 }

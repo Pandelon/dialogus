@@ -6,7 +6,7 @@ dependencies:
     - 'block_content:basic:366ff94b-216f-4147-8bfe-1456ca2fc898'
   module:
     - block_content
-    - ctools
+    - node
     - system
   theme:
     - dialogus
@@ -21,8 +21,6 @@ settings:
   label: 'jelentkezem IT képzésre'
   label_display: '0'
   provider: block_content
-  status: true
-  info: ''
   view_mode: full
 visibility:
   'entity_bundle:node':

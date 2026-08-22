@@ -6,7 +6,7 @@ dependencies:
     - 'block_content:basic:8c27f609-a5a7-4da1-936f-83c72793ce24'
   module:
     - block_content
-    - ctools
+    - node
   theme:
     - dialogus
 id: trainingfooter
@@ -20,8 +20,6 @@ settings:
   label: 'Training footer'
   label_display: '0'
   provider: block_content
-  status: true
-  info: ''
   view_mode: full
 visibility:
   'entity_bundle:node':
